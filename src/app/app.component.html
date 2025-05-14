@@ -1,1 +1,16 @@
-<router-outlet></router-outlet>
+<!-- Navigation Bar -->
+<nav class="navbar">
+  <div class="logo">
+    <img src="/assets/images/logo-orga.png" alt="Logo">
+  </div>
+  <ul class="nav-links">
+    <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">WHO WE ARE</a></li>
+    <li><a href="#">OUR SERVICES</a></li>
+    <li><a href="#">CASE STUDIES</a></li>
+    <li><a href="#">CONTACT</a></li>
+  </ul>
+</nav>
+
+<div class="app-content">
+  <router-outlet></router-outlet>
+</div>

@@ -1,0 +1,138 @@
+@use 'sass:color';
+@use '../../assets/branding/variables' as vars;
+@use '../../assets/branding/mixins' as mixins;
+
+.fraud-intake-container {
+  background-color: rgb(42, 46, 57);
+  color: #ffffff;
+  min-height: 100vh;
+  padding: 2rem 4rem;
+  font-family: 'Arial', sans-serif;
+  
+  .header {
+    margin-bottom: 2.5rem;
+    
+    h1 {
+      font-family: 'Georgia', serif;
+      font-size: 2.5rem;
+      font-weight: 400;
+      margin-bottom: 1rem;
+      color: #f5f5f5;
+    }
+    
+    .subtitle {
+      font-size: 1.1rem;
+      color: #d0d0d0;
+      max-width: 600px;
+    }
+  }
+  
+  .form-container {
+    max-width: 800px;
+    margin: 0 auto;
+    
+    .form-section {
+      background-color: rgba(255, 255, 255, 0.05);
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+      
+      h2 {
+        font-family: 'Georgia', serif;
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+        color: #f5f5f5;
+      }
+      
+      .form-group {
+        margin-bottom: 1.5rem;
+        
+        label {
+          display: block;
+          margin-bottom: 0.5rem;
+          font-weight: 500;
+          color: #d0d0d0;
+        }
+        
+        input, select, textarea {
+          width: 100%;
+          padding: 0.75rem;
+          background-color: rgba(255, 255, 255, 0.1);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          border-radius: 4px;
+          color: #ffffff;
+          font-family: 'Arial', sans-serif;
+          
+          &:focus {
+            outline: none;
+            border-color: #a8b5ff;
+          }
+          
+          &::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+          }
+        }
+      }
+    }
+    
+    .form-actions {
+      display: flex;
+      justify-content: flex-start;
+      gap: 1rem;
+      margin-top: 2rem;
+      
+      button {
+        padding: 0.75rem 1.5rem;
+        border-radius: 4px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      
+      .submit-button {
+        background-color: #a8b5ff;
+        color: #1E2A3A;
+        border: none;
+        
+        &:hover {
+          background-color: color.adjust(#a8b5ff, $lightness: 10%);
+          transform: translateY(-2px);
+        }
+        
+        &:active {
+          transform: translateY(0);
+        }
+      }
+      
+      .cancel-button {
+        background-color: transparent;
+        color: #d0d0d0;
+        border: 1px solid #d0d0d0;
+        
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.1);
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .fraud-intake-container {
+    padding: 1.5rem;
+    
+    .header {
+      h1 {
+        font-size: 2rem;
+      }
+    }
+    
+    .form-actions {
+      flex-direction: column;
+      
+      button {
+        width: 100%;
+      }
+    }
+  }
+}

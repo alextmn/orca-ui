@@ -1,3 +1,4 @@
+@use 'sass:color';
 @use '../../assets/branding/variables' as vars;
 @use '../../assets/branding/mixins' as mixins;
 
@@ -80,6 +81,29 @@
       line-height: 1.6;
       color: #d0d0d0;
       max-width: 90%;
+      margin-bottom: 2rem;
+    }
+    
+    .action-button {
+      background-color: #a8b5ff;
+      color: #1E2A3A;
+      border: none;
+      padding: 12px 24px;
+      font-family: 'Source Sans Variable', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      
+      &:hover {
+        background-color: color.adjust(#a8b5ff, $lightness: 10%);
+        transform: translateY(-2px);
+      }
+      
+      &:active {
+        transform: translateY(0);
+      }
     }
   }
   

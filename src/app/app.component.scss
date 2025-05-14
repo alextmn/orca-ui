@@ -1,0 +1,82 @@
+@use 'sass:color';
+@use '../assets/branding/variables' as vars;
+@use '../assets/branding/mixins' as mixins;
+
+:host {
+  display: block;
+}
+
+// Navigation bar styles
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 4rem;
+  background-color: rgb(42, 46, 57);
+  
+  .logo {
+    display: flex;
+    align-items: center;
+    
+    img {
+      height: 60px;
+      margin-right: 0.5rem;
+    }
+    
+    span {
+      font-size: 1.5rem;
+      font-weight: 300;
+      letter-spacing: 1px;
+      color: #ffffff;
+    }
+  }
+  
+  .nav-links {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    
+    li {
+      margin-left: 2.5rem;
+      
+      a {
+        color: #ffffff;
+        text-decoration: none;
+        font-size: 0.85rem;
+        font-weight: 300;
+        letter-spacing: 1px;
+        transition: color 0.3s ease;
+        
+        &:hover, &.active {
+          color: #a8b5ff;
+        }
+      }
+    }
+  }
+}
+
+.app-content {
+  min-height: calc(100vh - 93px); // Adjust based on navbar height
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .navbar {
+    padding: 1rem 2rem;
+    flex-direction: column;
+    
+    .logo {
+      margin-bottom: 1rem;
+    }
+    
+    .nav-links {
+      flex-wrap: wrap;
+      justify-content: center;
+      
+      li {
+        margin: 0.5rem 1rem;
+      }
+    }
+  }
+}
