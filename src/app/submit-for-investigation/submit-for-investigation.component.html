@@ -1,0 +1,91 @@
+<div class="submit-investigation-container">
+  <div class="header">
+    <h1>Review and Submit Investigation</h1>
+    <p class="subtitle">Please review the information below before submitting for investigation</p>
+  </div>
+
+  <div *ngIf="!reportData" class="error-container">
+    <p class="error-message">No report data found. Please go back and fill out the form again.</p>
+    <button class="back-button" routerLink="/fraud-investigation-intake">Return to Form</button>
+  </div>
+
+  <div *ngIf="reportData" class="report-summary">
+    <div class="section">
+      <h2>Contact Information</h2>
+      <div class="info-row">
+        <div class="info-label">Full Name:</div>
+        <div class="info-value">{{ reportData.fullName }}</div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">Email:</div>
+        <div class="info-value">{{ reportData.email }}</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Incident Details</h2>
+      <div class="info-row">
+        <div class="info-label">Your Wallet Address(es):</div>
+        <div class="info-value">{{ reportData.victimWallet }}</div>
+      </div>
+      <div class="info-row" *ngIf="reportData.scammerWallet">
+        <div class="info-label">Scammer Wallet Address(es):</div>
+        <div class="info-value">{{ reportData.scammerWallet }}</div>
+      </div>
+      <div class="info-row" *ngIf="reportData.exchangePlatform">
+        <div class="info-label">Exchange or Platform:</div>
+        <div class="info-value">{{ reportData.exchangePlatform }}</div>
+      </div>
+      <div class="info-row" *ngIf="reportData.tokenName">
+        <div class="info-label">Coin(s) / Token(s):</div>
+        <div class="info-value">{{ reportData.tokenName }}</div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">Amount Lost (USD):</div>
+        <div class="info-value">${{ reportData.amountLost.toFixed(2) }}</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Incident Description</h2>
+      <div class="description-box">
+        <p>{{ reportData.incidentDescription }}</p>
+      </div>
+    </div>
+
+    <div class="section" *ngIf="reportData.evidenceUrls">
+      <h2>Evidence URLs</h2>
+      <div class="description-box">
+        <p class="evidence-url" *ngFor="let url of reportData.evidenceUrls.split('\n')">
+          <a [href]="url" target="_blank" rel="noopener noreferrer">{{ url }}</a>
+        </p>
+      </div>
+    </div>
+
+    <div class="action-section">
+      <div *ngIf="!success">
+        <div class="error-message" *ngIf="error">{{ error }}</div>
+        <button 
+          class="submit-button" 
+          (click)="submitForInvestigation()" 
+          [disabled]="isSubmitting"
+        >
+          <span *ngIf="!isSubmitting">Submit for Investigation</span>
+          <span *ngIf="isSubmitting" class="loading-spinner">Submitting...</span>
+        </button>
+        <button class="back-button" routerLink="/fraud-investigation-intake" [disabled]="isSubmitting">
+          Back to Edit
+        </button>
+      </div>
+
+      <div *ngIf="success" class="success-container">
+        <div class="success-message">
+          <h3>Investigation Submitted Successfully!</h3>
+          <p>Your investigation request has been submitted. Your report ID is: <strong>{{ reportId }}</strong></p>
+          <p>Please save this ID for future reference. We will contact you via email with updates.</p>
+        </div>
+        <button class="home-button" routerLink="/">Return to Home</button>
+      </div>
+    </div>
+  </div>
+</div>

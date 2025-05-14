@@ -1,70 +1,166 @@
 <div class="fraud-intake-container">
-  <div class="header">
-    <h1>Report Cybercrime Incident</h1>
-    <p class="subtitle">Please provide details about the incident to help us investigate</p>
-  </div>
+  <div class="page-layout">
+    <div class="sidebar">
+      <div class="sidebar-content">
+        <h2>Fraud Report Intake</h2>
+        <p class="welcome-text">Welcome to the ORQA Victim Support Portal.</p>
+        <p>Please complete the form to begin the investigation process.</p>
+        
+        <div class="important-notes">
+          <h3>Important Notes:</h3>
+          
+          <div class="note-item">
+            <span class="note-icon">✅</span>
+            <span class="note-text">Your submission is confidential and secure.</span>
+          </div>
+          
+          <div class="note-item">
+            <span class="note-icon">📊</span>
+            <span class="note-text">Data may be used anonymously to strengthen fraud detection systems.</span>
+          </div>
+          
+          <div class="note-item">
+            <span class="note-icon">⚠️</span>
+            <span class="note-text">We cannot guarantee asset recovery, but every report helps build a safer ecosystem.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="main-content">
+      <div class="header">
+        <h1>Report Cybercrime Incident</h1>
+        <p class="subtitle">Please provide details about the incident to help us investigate</p>
+      </div>
 
-  <div class="form-container">
-    <form>
+      <div class="form-container">
+    <form [formGroup]="fraudForm">
       <div class="form-section">
         <h2>Contact Information</h2>
         <div class="form-group">
           <label for="fullName">Full Name</label>
-          <input type="text" id="fullName" placeholder="Enter your full name">
+          <input type="text" id="fullName" formControlName="fullName" placeholder="Enter your full name">
+          <div class="error-message" *ngIf="fraudForm.get('fullName')?.invalid && fraudForm.get('fullName')?.touched">
+            Full name is required
+          </div>
         </div>
         <div class="form-group">
           <label for="email">Email Address</label>
-          <input type="email" id="email" placeholder="Enter your email address">
-        </div>
-        <div class="form-group">
-          <label for="phone">Phone Number</label>
-          <input type="tel" id="phone" placeholder="Enter your phone number">
+          <input type="email" id="email" formControlName="email" placeholder="Enter your email address">
+          <div class="error-message" *ngIf="fraudForm.get('email')?.invalid && fraudForm.get('email')?.touched">
+            Valid email is required
+          </div>
         </div>
       </div>
 
       <div class="form-section">
         <h2>Incident Details</h2>
         <div class="form-group">
-          <label for="incidentDate">Date of Incident</label>
-          <input type="date" id="incidentDate">
+          <label for="victimWallet">Your Wallet Address(es)</label>
+          <input type="text" id="victimWallet" formControlName="victimWallet" placeholder="Enter comma-separated list of your wallet addresses">
+          <div class="error-message" *ngIf="fraudForm.get('victimWallet')?.invalid && fraudForm.get('victimWallet')?.touched">
+            At least one wallet address is required
+          </div>
         </div>
         <div class="form-group">
-          <label for="incidentType">Type of Incident</label>
-          <select id="incidentType">
-            <option value="" disabled selected>Select incident type</option>
-            <option value="crypto-theft">Cryptocurrency Theft</option>
-            <option value="scam">Investment Scam</option>
-            <option value="phishing">Phishing Attack</option>
-            <option value="ransomware">Ransomware</option>
-            <option value="other">Other</option>
-          </select>
+          <label for="scammerWallet">Scammer Wallet Address(es) (if known)</label>
+          <input type="text" id="scammerWallet" formControlName="scammerWallet" placeholder="Enter comma-separated list of scammer's wallet addresses">
         </div>
         <div class="form-group">
-          <label for="financialLoss">Estimated Financial Loss</label>
-          <input type="text" id="financialLoss" placeholder="Enter amount and currency">
+          <label for="exchangePlatform">Exchange or Platform Name</label>
+          <input type="text" id="exchangePlatform" formControlName="exchangePlatform" placeholder="Enter exchange or platform name">
         </div>
         <div class="form-group">
-          <label for="incidentDescription">Incident Description</label>
-          <textarea id="incidentDescription" rows="5" placeholder="Please provide a detailed description of the incident"></textarea>
+          <label for="tokenName">Coin(s) / Token(s)</label>
+          <input type="text" id="tokenName" formControlName="tokenName" placeholder="Enter comma-separated list of coins/tokens (e.g., BTC, ETH, USDT)">
+        </div>
+        <div class="form-group">
+          <label for="amountLost">Amount Lost Value, USD</label>
+          <input type="number" id="amountLost" formControlName="amountLost" placeholder="Enter amount lost in USD" min="0" step="0.01">
+          <div class="error-message" *ngIf="fraudForm.get('amountLost')?.invalid && fraudForm.get('amountLost')?.touched">
+            Valid USD amount is required
+          </div>
         </div>
       </div>
 
       <div class="form-section">
-        <h2>Technical Information</h2>
+        <h2>Incident Description</h2>
         <div class="form-group">
-          <label for="walletAddresses">Relevant Wallet Addresses</label>
-          <textarea id="walletAddresses" rows="3" placeholder="Enter wallet addresses involved in the incident"></textarea>
-        </div>
-        <div class="form-group">
-          <label for="transactionIDs">Transaction IDs</label>
-          <textarea id="transactionIDs" rows="3" placeholder="Enter transaction IDs related to the incident"></textarea>
+          <label for="incidentDescription">
+            Please describe what happened in your own words
+            <span class="char-count" [ngClass]="{'warning': getCharacterCount() > 900, 'error': getCharacterCount() > 1000}">
+              {{ getCharacterCount() }}/1000
+            </span>
+          </label>
+          <textarea 
+            id="incidentDescription" 
+            formControlName="incidentDescription" 
+            rows="6" 
+            placeholder="Describe what happened, how you were contacted, what actions you took, etc."
+            (input)="updateCharCount()"
+            maxlength="1000"
+          ></textarea>
+          <div class="error-message" *ngIf="fraudForm.get('incidentDescription')?.invalid && fraudForm.get('incidentDescription')?.touched">
+            Description is required
+          </div>
         </div>
       </div>
 
+      <div class="form-section">
+        <h2>Supporting Evidence</h2>
+        <div class="form-group">
+          <label>Upload Screenshots or Documents</label>
+          <div class="file-upload-container">
+            <input type="file" id="fileUpload" formControlName="fileUpload" multiple (change)="onFileSelected($event)" accept=".jpg,.jpeg,.png,.pdf">
+            <label for="fileUpload" class="file-upload-button">Choose Files</label>
+            <span class="file-name" *ngIf="selectedFiles.length > 0">{{ selectedFiles.length }} file(s) selected</span>
+          </div>
+          <div class="upload-hint">Accepted formats: JPG, PNG, PDF (max 10MB each)</div>
+        </div>
+        
+        <div class="form-group">
+          <label for="evidenceUrls">Evidence URLs</label>
+          <textarea id="evidenceUrls" formControlName="evidenceUrls" rows="3" placeholder="Paste links to relevant evidence (one per line)"></textarea>
+          <div class="upload-hint">Include links to social media posts, websites, or other online evidence</div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h2>Terms and Consent</h2>
+        <div class="consent-group">
+          <div class="checkbox-container">
+            <input type="checkbox" id="shareDataConsent" formControlName="shareDataConsent">
+            <label for="shareDataConsent">I agree to share anonymized data with Orqa partners.</label>
+          </div>
+          <div class="error-message" *ngIf="fraudForm.get('shareDataConsent')?.invalid && fraudForm.get('shareDataConsent')?.touched">
+            You must agree to continue
+          </div>
+        </div>
+        
+        <div class="consent-group">
+          <div class="checkbox-container">
+            <input type="checkbox" id="termsConsent" formControlName="termsConsent">
+            <label for="termsConsent">I agree to the terms of use</label>
+          </div>
+          <div class="error-message" *ngIf="fraudForm.get('termsConsent')?.invalid && fraudForm.get('termsConsent')?.touched">
+            You must agree to continue
+          </div>
+        </div>
+      </div>
+
+      <div class="form-error" *ngIf="submitError">
+        <div class="error-message">{{ submitError }}</div>
+      </div>
+
       <div class="form-actions">
-        <button type="submit" class="submit-button">Submit Report</button>
-        <button type="button" class="cancel-button" routerLink="/">Cancel</button>
+        <button type="button" class="submit-button" [disabled]="fraudForm.invalid || isSubmitting" (click)="onSubmit()">
+          <span *ngIf="!isSubmitting">Review Report</span>
+          <span *ngIf="isSubmitting" class="loading-spinner">Loading...</span>
+        </button>
+        <button type="button" class="cancel-button" routerLink="/" [disabled]="isSubmitting">Cancel</button>
       </div>
     </form>
+      </div>
+    </div>
   </div>
 </div>

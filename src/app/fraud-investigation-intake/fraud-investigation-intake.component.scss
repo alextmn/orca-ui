@@ -5,9 +5,76 @@
 .fraud-intake-container {
   background-color: rgb(42, 46, 57);
   color: #ffffff;
-  min-height: 100vh;
-  padding: 2rem 4rem;
+  min-height: calc(100vh - 93px); // Adjust based on navbar height
   font-family: 'Arial', sans-serif;
+  
+  .page-layout {
+    display: flex;
+    height: 100%;
+  }
+  
+  .sidebar {
+    width: 320px;
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 2rem;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    
+    .sidebar-content {
+      position: sticky;
+      top: 2rem;
+      
+      h2 {
+        font-family: 'Georgia', serif;
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+        color: #a8b5ff;
+      }
+      
+      .welcome-text {
+        font-size: 1.1rem;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        color: #f5f5f5;
+      }
+      
+      p {
+        margin-bottom: 1.5rem;
+        color: #d0d0d0;
+      }
+      
+      .important-notes {
+        margin-top: 2rem;
+        
+        h3 {
+          font-size: 1.2rem;
+          margin-bottom: 1rem;
+          color: #f5f5f5;
+        }
+        
+        .note-item {
+          display: flex;
+          margin-bottom: 1rem;
+          align-items: flex-start;
+          
+          .note-icon {
+            font-size: 1.2rem;
+            margin-right: 0.75rem;
+            flex-shrink: 0;
+          }
+          
+          .note-text {
+            color: #d0d0d0;
+            line-height: 1.4;
+          }
+        }
+      }
+    }
+  }
+  
+  .main-content {
+    flex: 1;
+    padding: 2rem 4rem;
+  }
   
   .header {
     margin-bottom: 2.5rem;
@@ -47,11 +114,29 @@
       .form-group {
         margin-bottom: 1.5rem;
         
+        &:last-child {
+          margin-bottom: 0;
+        }
+        
         label {
           display: block;
           margin-bottom: 0.5rem;
           font-weight: 500;
           color: #d0d0d0;
+        }
+        
+        .char-count {
+          float: right;
+          font-size: 0.85rem;
+          color: #a8b5ff;
+          
+          &.warning {
+            color: #FCE8C3;
+          }
+          
+          &.error {
+            color: #E8A598;
+          }
         }
         
         input, select, textarea {
@@ -71,7 +156,88 @@
           &::placeholder {
             color: rgba(255, 255, 255, 0.5);
           }
+          
+          &.ng-invalid.ng-touched {
+            border-color: #E8A598;
+          }
         }
+        
+        .error-message {
+          color: #E8A598;
+          font-size: 0.85rem;
+          margin-top: 0.5rem;
+        }
+        
+        .file-upload-container {
+          display: flex;
+          align-items: center;
+          margin-bottom: 0.5rem;
+          
+          input[type="file"] {
+            display: none;
+          }
+          
+          .file-upload-button {
+            background-color: rgba(168, 181, 255, 0.2);
+            color: #a8b5ff;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+            
+            &:hover {
+              background-color: rgba(168, 181, 255, 0.3);
+            }
+          }
+          
+          .file-name {
+            margin-left: 1rem;
+            color: #d0d0d0;
+          }
+        }
+        
+        .upload-hint {
+          font-size: 0.85rem;
+          color: rgba(255, 255, 255, 0.6);
+          margin-top: 0.5rem;
+        }
+      }
+      
+      .consent-group {
+        margin-bottom: 1.5rem;
+        
+        .checkbox-container {
+          display: flex;
+          align-items: flex-start;
+          
+          input[type="checkbox"] {
+            width: auto;
+            margin-right: 0.75rem;
+            margin-top: 0.25rem;
+            cursor: pointer;
+          }
+          
+          label {
+            font-size: 1rem;
+            color: #f5f5f5;
+            cursor: pointer;
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+    
+    .form-error {
+      background-color: rgba(232, 165, 152, 0.1);
+      border: 1px solid #E8A598;
+      border-radius: 4px;
+      padding: 1rem;
+      margin-top: 1.5rem;
+      
+      .error-message {
+        color: #E8A598;
+        font-size: 1rem;
       }
     }
     
@@ -87,6 +253,34 @@
         font-weight: 600;
         cursor: pointer;
         transition: all 0.3s ease;
+        min-width: 150px;
+        
+        .loading-spinner {
+          display: inline-block;
+          position: relative;
+          
+          &:after {
+            content: '.';
+            animation: dots 1.5s steps(5, end) infinite;
+          }
+        }
+      }
+      
+      @keyframes dots {
+        0%, 20% {
+          color: rgba(0,0,0,0);
+          text-shadow: .25em 0 0 rgba(0,0,0,0), .5em 0 0 rgba(0,0,0,0);
+        }
+        40% {
+          color: white;
+          text-shadow: .25em 0 0 rgba(0,0,0,0), .5em 0 0 rgba(0,0,0,0);
+        }
+        60% {
+          text-shadow: .25em 0 0 white, .5em 0 0 rgba(0,0,0,0);
+        }
+        80%, 100% {
+          text-shadow: .25em 0 0 white, .5em 0 0 white;
+        }
       }
       
       .submit-button {
@@ -94,13 +288,18 @@
         color: #1E2A3A;
         border: none;
         
-        &:hover {
+        &:hover:not([disabled]) {
           background-color: color.adjust(#a8b5ff, $lightness: 10%);
           transform: translateY(-2px);
         }
         
-        &:active {
+        &:active:not([disabled]) {
           transform: translateY(0);
+        }
+        
+        &[disabled] {
+          opacity: 0.6;
+          cursor: not-allowed;
         }
       }
       
@@ -117,9 +316,34 @@
   }
 }
 
+@media (max-width: 1024px) {
+  .fraud-intake-container {
+    .page-layout {
+      flex-direction: column;
+    }
+    
+    .sidebar {
+      width: 100%;
+      border-right: none;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 1.5rem 2rem;
+      
+      .sidebar-content {
+        position: static;
+      }
+    }
+    
+    .main-content {
+      padding: 1.5rem 2rem;
+    }
+  }
+}
+
 @media (max-width: 768px) {
   .fraud-intake-container {
-    padding: 1.5rem;
+    .main-content {
+      padding: 1.5rem;
+    }
     
     .header {
       h1 {
