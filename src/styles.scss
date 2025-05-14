@@ -1,6 +1,7 @@
 /* Import branding variables and mixins */
-@import 'assets/branding/variables';
-@import 'assets/branding/mixins';
+@use 'sass:color';
+@use 'assets/branding/_variables' as vars;
+@use 'assets/branding/_mixins' as mixins;
 
 /* Font imports */
 @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400;1,700&display=swap');
@@ -10,9 +11,9 @@
 html, body { height: 100%; }
 body { 
   margin: 0; 
-  font-family: $font-body;
-  background-color: $color-off-white;
-  color: $color-dark-navy;
+  font-family: vars.$font-body;
+  background-color: vars.$color-off-white;
+  color: vars.$color-dark-navy;
 }
 
 /* Global styles */
@@ -22,65 +23,65 @@ body {
 
 /* Typography */
 h1 {
-  @include heading-1;
-  margin-bottom: $spacing-md;
+  @include mixins.heading-1;
+  margin-bottom: vars.$spacing-md;
 }
 
 h2 {
-  @include heading-2;
-  margin-bottom: $spacing-sm;
+  @include mixins.heading-2;
+  margin-bottom: vars.$spacing-sm;
 }
 
 h3 {
-  @include heading-3;
-  margin-bottom: $spacing-sm;
+  @include mixins.heading-3;
+  margin-bottom: vars.$spacing-sm;
 }
 
 h4 {
-  @include heading-4;
-  margin-bottom: $spacing-xs;
+  @include mixins.heading-4;
+  margin-bottom: vars.$spacing-xs;
 }
 
 p {
-  @include body-text;
-  margin-bottom: $spacing-sm;
+  @include mixins.body-text;
+  margin-bottom: vars.$spacing-sm;
 }
 
 /* Material theme customization */
 .mat-mdc-card {
-  border-radius: $border-radius-md;
-  box-shadow: $shadow-sm !important;
-  background-color: $color-off-white;
+  border-radius: vars.$border-radius-md;
+  box-shadow: vars.$shadow-sm !important;
+  background-color: vars.$color-off-white;
 }
 
 /* Button styles */
 button.primary-button {
-  @include button-primary;
+  @include mixins.button-primary;
 }
 
 button.secondary-button {
-  @include button-secondary;
+  @include mixins.button-secondary;
 }
 
 /* Form styles */
 input, select, textarea {
-  padding: $spacing-sm;
-  border: 1px solid darken($color-off-white, 10%);
-  border-radius: $border-radius-sm;
-  font-family: $font-body;
-  background-color: $color-off-white;
+  padding: vars.$spacing-sm;
+  border: 1px solid color.adjust(vars.$color-off-white, $lightness: -10%);
+  border-radius: vars.$border-radius-sm;
+  font-family: vars.$font-body;
+  background-color: vars.$color-off-white;
   
   &:focus {
     outline: none;
-    border-color: $color-black;
+    border-color: vars.$color-black;
   }
 }
 
 /* Link styles */
 a {
-  color: $color-dark-navy;
+  color: vars.$color-dark-navy;
   text-decoration: none;
-  transition: $transition-default;
+  transition: vars.$transition-default;
   
   &:hover {
     text-decoration: underline;
@@ -89,14 +90,14 @@ a {
 
 /* Custom colors for the ORQA application */
 :root {
-  --primary-color: #{$color-black};
-  --secondary-color: #{$color-off-white};
-  --accent-lavender: #{$color-lavender};
-  --accent-mint: #{$color-mint-green};
-  --accent-coral: #{$color-coral};
-  --accent-cream: #{$color-cream};
-  --accent-blue: #{$color-light-blue};
-  --text-dark: #{$color-dark-navy};
-  --text-light: #{$color-off-white};
-  --error-color: #{$color-coral};
+  --primary-color: #{vars.$color-black};
+  --secondary-color: #{vars.$color-off-white};
+  --accent-lavender: #{vars.$color-lavender};
+  --accent-mint: #{vars.$color-mint-green};
+  --accent-coral: #{vars.$color-coral};
+  --accent-cream: #{vars.$color-cream};
+  --accent-blue: #{vars.$color-light-blue};
+  --text-dark: #{vars.$color-dark-navy};
+  --text-light: #{vars.$color-off-white};
+  --error-color: #{vars.$color-coral};
 }

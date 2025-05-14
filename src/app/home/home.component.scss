@@ -1,5 +1,5 @@
-@import '../../assets/branding/variables';
-@import '../../assets/branding/mixins';
+@use '../../assets/branding/variables' as vars;
+@use '../../assets/branding/mixins' as mixins;
 
 // Main container styles
 .home-container {
