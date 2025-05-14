@@ -1,0 +1,48 @@
+<div class="login-container">
+  <div class="login-card">
+    <div class="logo-container">
+      <div class="logo">ORQA</div>
+      <h1>Collisionless</h1>
+    </div>
+
+    <form (ngSubmit)="login()">
+      <div class="form-field">
+        <label for="email">Email</label>
+        <input 
+          type="email" 
+          id="email" 
+          name="email" 
+          [(ngModel)]="email" 
+          required>
+      </div>
+
+      <div class="form-field">
+        <label for="password">Password</label>
+        <input 
+          type="password" 
+          id="password" 
+          name="password" 
+          [(ngModel)]="password" 
+          required>
+      </div>
+
+      <div *ngIf="loginError" class="error-message">
+        {{ loginError }}
+      </div>
+
+      <button type="submit" class="sign-in-button">Sign In</button>
+
+      <div class="signup-link">
+        Need an account? <a href="javascript:void(0)">Sign up</a>
+      </div>
+    </form>
+  </div>
+
+  <div class="color-blocks">
+    <div class="color-block lavender"></div>
+    <div class="color-block mint"></div>
+    <div class="color-block coral"></div>
+    <div class="color-block cream"></div>
+    <div class="color-block light-blue"></div>
+  </div>
+</div>

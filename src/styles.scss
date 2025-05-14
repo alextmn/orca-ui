@@ -1,4 +1,102 @@
+/* Import branding variables and mixins */
+@import 'assets/branding/variables';
+@import 'assets/branding/mixins';
+
+/* Font imports */
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { 
+  margin: 0; 
+  font-family: $font-body;
+  background-color: $color-off-white;
+  color: $color-dark-navy;
+}
+
+/* Global styles */
+* {
+  box-sizing: border-box;
+}
+
+/* Typography */
+h1 {
+  @include heading-1;
+  margin-bottom: $spacing-md;
+}
+
+h2 {
+  @include heading-2;
+  margin-bottom: $spacing-sm;
+}
+
+h3 {
+  @include heading-3;
+  margin-bottom: $spacing-sm;
+}
+
+h4 {
+  @include heading-4;
+  margin-bottom: $spacing-xs;
+}
+
+p {
+  @include body-text;
+  margin-bottom: $spacing-sm;
+}
+
+/* Material theme customization */
+.mat-mdc-card {
+  border-radius: $border-radius-md;
+  box-shadow: $shadow-sm !important;
+  background-color: $color-off-white;
+}
+
+/* Button styles */
+button.primary-button {
+  @include button-primary;
+}
+
+button.secondary-button {
+  @include button-secondary;
+}
+
+/* Form styles */
+input, select, textarea {
+  padding: $spacing-sm;
+  border: 1px solid darken($color-off-white, 10%);
+  border-radius: $border-radius-sm;
+  font-family: $font-body;
+  background-color: $color-off-white;
+  
+  &:focus {
+    outline: none;
+    border-color: $color-black;
+  }
+}
+
+/* Link styles */
+a {
+  color: $color-dark-navy;
+  text-decoration: none;
+  transition: $transition-default;
+  
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+/* Custom colors for the ORQA application */
+:root {
+  --primary-color: #{$color-black};
+  --secondary-color: #{$color-off-white};
+  --accent-lavender: #{$color-lavender};
+  --accent-mint: #{$color-mint-green};
+  --accent-coral: #{$color-coral};
+  --accent-cream: #{$color-cream};
+  --accent-blue: #{$color-light-blue};
+  --text-dark: #{$color-dark-navy};
+  --text-light: #{$color-off-white};
+  --error-color: #{$color-coral};
+}

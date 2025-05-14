@@ -1,0 +1,130 @@
+// ORQA Branding Mixins
+@import 'variables';
+
+// Typography Mixins
+@mixin heading-1 {
+  font-family: $font-heading;
+  font-size: $font-size-h1;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+}
+
+@mixin heading-2 {
+  font-family: $font-heading;
+  font-size: $font-size-h2;
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: -0.3px;
+}
+
+@mixin heading-3 {
+  font-family: $font-heading;
+  font-size: $font-size-h3;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+@mixin heading-4 {
+  font-family: $font-heading;
+  font-size: $font-size-h4;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+@mixin subheading {
+  font-family: $font-heading;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+@mixin body-text {
+  font-family: $font-body;
+  font-size: $font-size-body;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+@mixin small-text {
+  font-family: $font-body;
+  font-size: $font-size-small;
+  line-height: 1.5;
+}
+
+// Layout Mixins
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+// Button Mixins
+@mixin button-base {
+  padding: $spacing-sm $spacing-md;
+  border-radius: $border-radius-sm;
+  font-family: $font-heading;
+  font-weight: 600;
+  cursor: pointer;
+  transition: $transition-default;
+  text-align: center;
+  border: none;
+}
+
+@mixin button-primary {
+  @include button-base;
+  background-color: $color-black;
+  color: $color-off-white;
+  
+  &:hover {
+    background-color: lighten($color-black, 15%);
+  }
+}
+
+@mixin button-secondary {
+  @include button-base;
+  background-color: $color-off-white;
+  color: $color-black;
+  border: 1px solid $color-black;
+  
+  &:hover {
+    background-color: darken($color-off-white, 5%);
+  }
+}
+
+// Card Mixins
+@mixin card {
+  background-color: $color-off-white;
+  padding: $spacing-md;
+  border-radius: $border-radius-md;
+  box-shadow: $shadow-sm;
+}
+
+// Responsive Mixins
+@mixin mobile {
+  @media (max-width: 767px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: 768px) and (max-width: 1023px) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: 1024px) {
+    @content;
+  }
+}
