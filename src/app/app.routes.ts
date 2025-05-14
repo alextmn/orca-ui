@@ -3,6 +3,7 @@ import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './home/home.component';
 import { FraudInvestigationIntakeComponent } from './fraud-investigation-intake/fraud-investigation-intake.component';
+import { FraudInvestigationConsentComponent } from './fraud-investigation-consent/fraud-investigation-consent.component';
 import { inject } from '@angular/core';
 import { UserService } from './services/user.service';
 import { Router } from '@angular/router';
@@ -27,6 +28,7 @@ export const routes: Routes = [
     component: DashboardComponent,
     canActivate: [() => authGuard()]
   },
+  { path: 'fraud-investigation-consent', component: FraudInvestigationConsentComponent },
   { path: 'fraud-investigation-intake', component: FraudInvestigationIntakeComponent },
   { path: '**', redirectTo: '/' }
 ];

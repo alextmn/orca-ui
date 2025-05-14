@@ -1,0 +1,62 @@
+<div class="consent-container">
+  <div class="hero-section">
+    <h1>Investigate crypto fraud in minutes</h1>
+    <p class="subtitle">Welcome to Orqa, your blockchain fraud investigation assistant</p>
+  </div>
+
+  <div class="content-section">
+    <div class="description-box">
+      <h2>What Orqa does</h2>
+      <ul class="feature-list">
+        <li>
+          <div class="icon-wrapper">
+            <i class="feature-icon report-icon"></i>
+          </div>
+          <span>Helps victims report crypto fraud</span>
+        </li>
+        <li>
+          <div class="icon-wrapper">
+            <i class="feature-icon privacy-icon"></i>
+          </div>
+          <span>Privacy-preserving</span>
+        </li>
+        <li>
+          <div class="icon-wrapper">
+            <i class="feature-icon security-icon"></i>
+          </div>
+          <span>No guarantees of fund recovery</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="consent-box">
+      <h2>Before you proceed</h2>
+      <p>Please read and acknowledge the following important information:</p>
+      
+      <div class="disclosure-container">
+        <div class="disclosure-item">
+          <div class="icon-wrapper warning">
+            <i class="warning-icon"></i>
+          </div>
+          <p>We do not guarantee asset recovery.</p>
+        </div>
+        
+        <div class="disclosure-item">
+          <div class="icon-wrapper info">
+            <i class="info-icon"></i>
+          </div>
+          <p>Data will be shared anonymously for ecosystem intelligence.</p>
+        </div>
+      </div>
+      
+      <div class="consent-actions">
+        <div class="consent-checkbox">
+          <input type="checkbox" id="consent-checkbox" (change)="updateConsent($event)">
+          <label for="consent-checkbox">I understand and agree to these terms</label>
+        </div>
+        
+        <button class="cta-button" routerLink="/fraud-investigation-intake" [disabled]="!consentChecked">Start Report</button>
+      </div>
+    </div>
+  </div>
+</div>
