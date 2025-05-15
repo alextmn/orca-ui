@@ -69,9 +69,13 @@ export class SubmitForInvestigationComponent implements OnInit {
     this.isSubmitting = true;
     this.error = null;
     
-    // Navigate to the case-investigation component with the report data
+    // Navigate to the case-investigation component with the report data and case ID as query parameter
     setTimeout(() => {
+      // Ensure we have a case ID
+      const caseId = this.reportData?.id || `FR-${new Date().getFullYear()}-${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`;
+      
       this.router.navigate(['/case-investigation'], {
+        queryParams: { case: caseId },
         state: { reportData: this.reportData }
       });
     }, 100);

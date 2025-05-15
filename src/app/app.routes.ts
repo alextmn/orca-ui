@@ -32,9 +32,5 @@ export const routes: Routes = [
   { path: 'fraud-investigation-consent', component: FraudInvestigationConsentComponent },
   { path: 'fraud-investigation-intake', component: FraudInvestigationIntakeComponent },
   { path: 'case-investigation', component: CaseInvestigationComponent },
-  {
-    path: 'case-investigation/:id',
-    component: CaseInvestigationComponent
-  },
   { path: '**', redirectTo: '/' }
 ];

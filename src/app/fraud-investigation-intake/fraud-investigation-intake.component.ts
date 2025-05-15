@@ -117,8 +117,9 @@ export class FraudInvestigationIntakeComponent implements OnInit {
         
         // Use timeout to ensure any pending operations complete
         setTimeout(() => {
-          // Navigate to the case investigation page
+          // Navigate to the case investigation page with the case ID as a query parameter
           this.router.navigate(['/case-investigation'], { 
+            queryParams: { case: caseId },
             state: { reportData }
           });
         }, 100);

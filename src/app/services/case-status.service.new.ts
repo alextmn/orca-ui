@@ -343,14 +343,6 @@ Victim Wallet → 0x7a23... → 0x9b45... → 0x3f67... → Exchange
             caseId: caseId,
             timestamp: autoAssessment1Time,
             status: 'submitted',
-            comment: 'Assessment completed for this case. Our automated systems have analyzed the reported information.',
-            updatedBy: 'System'
-          },
-          {
-            id: `update-${Math.floor(Math.random() * 10000)}`,
-            caseId: caseId,
-            timestamp: autoAssessment1Time,
-            status: 'submitted',
             comment: `## Automatic Case Assessment
 
 ### Risk Analysis Report
