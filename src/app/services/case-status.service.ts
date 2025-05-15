@@ -2,6 +2,13 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 
+export interface ReportLink {
+  id: string;
+  title: string;
+  icon: string;
+  reportType: string;
+}
+
 export interface CaseStatusUpdate {
   id: string;
   caseId: string;
@@ -9,6 +16,7 @@ export interface CaseStatusUpdate {
   status: 'submitted' | 'under-review' | 'investigating' | 'escalated' | 'closed';
   comment: string;
   updatedBy: string;
+  reportLinks?: ReportLink[];
 }
 
 export interface CaseDetails {
@@ -344,7 +352,27 @@ Victim Wallet → 0x7a23... → 0x9b45... → 0x3f67... → Exchange
             timestamp: autoAssessment1Time,
             status: 'submitted',
             comment: 'Assessment completed for this case. Our automated systems have analyzed the reported information.',
-            updatedBy: 'System'
+            updatedBy: 'System',
+            reportLinks: [
+              {
+                id: 'assessment-report',
+                title: 'Automatic Case Assessment',
+                icon: '📊',
+                reportType: 'automatic-assessment'
+              },
+              {
+                id: 'forensics-report',
+                title: 'Blockchain Forensics Report',
+                icon: '🔍',
+                reportType: 'blockchain-forensics'
+              },
+              {
+                id: 'police-report',
+                title: 'Police Report Example',
+                icon: '🛀',
+                reportType: 'police-report'
+              }
+            ]
           },
           {
             id: `update-${Math.floor(Math.random() * 10000)}`,

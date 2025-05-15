@@ -335,6 +335,25 @@ Preliminary investigation suggests this case is part of a larger phishing operat
   }
   
   /**
+   * Opens a report based on its type from the API data
+   */
+  openReportByType(reportType: string): void {
+    switch (reportType) {
+      case 'automatic-assessment':
+        this.openAssessmentReport();
+        break;
+      case 'blockchain-forensics':
+        this.openForensicsReport();
+        break;
+      case 'police-report':
+        this.openPoliceReport();
+        break;
+      default:
+        console.warn(`Unknown report type: ${reportType}`);
+    }
+  }
+  
+  /**
    * Opens the markdown modal with the selected comment
    */
   openMarkdownModal(comment: CaseStatusUpdate): void {

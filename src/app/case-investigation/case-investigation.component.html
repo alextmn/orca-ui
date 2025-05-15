@@ -169,15 +169,20 @@
                   <div *ngIf="isAssessmentRow(comment)" class="assessment-summary">
                     <p class="assessment-message">Initial assessment has been completed. Please see the reports we generated based on your case:</p>
                     <div class="assessment-links">
-                      <a (click)="openAssessmentReport()" class="assessment-link">
-                        <i class="assessment-icon">📊</i> Automatic Case Assessment
-                      </a>
-                      <a (click)="openForensicsReport()" class="assessment-link">
-                        <i class="assessment-icon">🔍</i> Blockchain Forensics Report
-                      </a>
-                      <a (click)="openPoliceReport()" class="assessment-link">
-                        <i class="assessment-icon">🛀</i> Police Report Example
-                      </a>
+                      <ng-container *ngIf="comment.reportLinks && comment.reportLinks.length > 0">
+                        <a *ngFor="let link of comment.reportLinks" (click)="openReportByType(link.reportType)" class="assessment-link">
+                          <i class="assessment-icon">{{ link.icon }}</i> {{ link.title }}
+                        </a>
+                      </ng-container>
+                      <ng-container *ngIf="!comment.reportLinks || comment.reportLinks.length === 0">
+                        <!-- Fallback if no links are provided -->
+                        <a (click)="openAssessmentReport()" class="assessment-link">
+                          <i class="assessment-icon">📊</i> Automatic Case Assessment
+                        </a>
+                        <a (click)="openForensicsReport()" class="assessment-link">
+                          <i class="assessment-icon">🔍</i> Blockchain Forensics Report
+                        </a>
+                      </ng-container>
                     </div>
                   </div>
                 </td>
