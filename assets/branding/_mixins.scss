@@ -1,0 +1,131 @@
+// ORQA Branding Mixins
+@use 'sass:color';
+@use 'variables' as vars;
+
+// Typography Mixins
+@mixin heading-1 {
+  font-family: vars.$font-heading;
+  font-size: vars.$font-size-h1;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+}
+
+@mixin heading-2 {
+  font-family: vars.$font-heading;
+  font-size: vars.$font-size-h2;
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: -0.3px;
+}
+
+@mixin heading-3 {
+  font-family: vars.$font-heading;
+  font-size: vars.$font-size-h3;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+@mixin heading-4 {
+  font-family: vars.$font-heading;
+  font-size: vars.$font-size-h4;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+@mixin subheading {
+  font-family: vars.$font-heading;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+@mixin body-text {
+  font-family: vars.$font-body;
+  font-size: vars.$font-size-body;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+@mixin small-text {
+  font-family: vars.$font-body;
+  font-size: vars.$font-size-small;
+  line-height: 1.5;
+}
+
+// Layout Mixins
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+// Button Mixins
+@mixin button-base {
+  padding: vars.$spacing-sm vars.$spacing-md;
+  border-radius: vars.$border-radius-sm;
+  font-family: vars.$font-heading;
+  font-weight: 600;
+  cursor: pointer;
+  transition: vars.$transition-default;
+  text-align: center;
+  border: none;
+}
+
+@mixin button-primary {
+  @include button-base;
+  background-color: vars.$color-black;
+  color: vars.$color-off-white;
+  
+  &:hover {
+    background-color: color.adjust(vars.$color-black, $lightness: 15%);
+  }
+}
+
+@mixin button-secondary {
+  @include button-base;
+  background-color: vars.$color-off-white;
+  color: vars.$color-black;
+  border: 1px solid vars.$color-black;
+  
+  &:hover {
+    background-color: color.adjust(vars.$color-off-white, $lightness: -5%);
+  }
+}
+
+// Card Mixins
+@mixin card {
+  background-color: vars.$color-off-white;
+  padding: vars.$spacing-md;
+  border-radius: vars.$border-radius-md;
+  box-shadow: vars.$shadow-sm;
+}
+
+// Responsive Mixins
+@mixin mobile {
+  @media (max-width: 767px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: 768px) and (max-width: 1023px) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: 1024px) {
+    @content;
+  }
+}
