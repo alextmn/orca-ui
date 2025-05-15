@@ -154,7 +154,7 @@
 
       <div class="form-actions">
         <button type="button" class="submit-button" [disabled]="fraudForm.invalid || isSubmitting" (click)="onSubmit()">
-          <span *ngIf="!isSubmitting">Review Report</span>
+          <span *ngIf="!isSubmitting">Submit a Case</span>
           <span *ngIf="isSubmitting" class="loading-spinner">Loading...</span>
         </button>
         <button type="button" class="cancel-button" routerLink="/" [disabled]="isSubmitting">Cancel</button>

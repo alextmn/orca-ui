@@ -92,8 +92,12 @@ export class FraudInvestigationIntakeComponent implements OnInit {
       try {
         this.isSubmitting = true;
         
+        // Generate a case ID
+        const caseId = `FR-${new Date().getFullYear()}-${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`;
+        
         // Prepare the report data
         const reportData: FraudReport = {
+          id: caseId, // Add the case ID to the report data
           fullName: this.fraudForm.value.fullName || '',
           email: this.fraudForm.value.email || '',
           victimWallet: this.fraudForm.value.victimWallet || '',
@@ -102,16 +106,19 @@ export class FraudInvestigationIntakeComponent implements OnInit {
           tokenName: this.fraudForm.value.tokenName || '',
           amountLost: parseFloat(this.fraudForm.value.amountLost) || 0,
           incidentDescription: this.fraudForm.value.incidentDescription || '',
-          evidenceUrls: this.fraudForm.value.evidenceUrls || ''
+          evidenceUrls: this.fraudForm.value.evidenceUrls || '',
+          reportDate: new Date(), // Add the current date
+          status: 'submitted' // Set initial status
         };
         
         // Log files for debugging
         console.log('Files to upload:', this.selectedFiles);
+        console.log('Generated case ID:', caseId);
         
         // Use timeout to ensure any pending operations complete
         setTimeout(() => {
-          // Navigate to the review page
-          this.router.navigateByUrl('/submit-for-investigation', { 
+          // Navigate to the case investigation page
+          this.router.navigate(['/case-investigation'], { 
             state: { reportData }
           });
         }, 100);

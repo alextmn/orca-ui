@@ -52,21 +52,28 @@ export class SubmitForInvestigationComponent implements OnInit {
       return;
     }
 
+    // Generate a case ID if one doesn't exist
+    if (!this.reportData.id) {
+      this.reportData.id = `FR-${new Date().getFullYear()}-${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`;
+    }
+    
+    // Set report date and status if they don't exist
+    if (!this.reportData.reportDate) {
+      this.reportData.reportDate = new Date();
+    }
+    
+    if (!this.reportData.status) {
+      this.reportData.status = 'submitted';
+    }
+    
     this.isSubmitting = true;
     this.error = null;
     
-    this.fraudReportService.submitReport(this.reportData).subscribe({
-      next: (response) => {
-        console.log('Report submitted successfully:', response);
-        this.isSubmitting = false;
-        this.success = true;
-        this.reportId = response.id || null;
-      },
-      error: (error: any) => {
-        console.error('Error submitting report:', error);
-        this.isSubmitting = false;
-        this.error = typeof error.message === 'string' ? error.message : 'An unexpected error occurred. Please try again.';
-      }
-    });
+    // Navigate to the case-investigation component with the report data
+    setTimeout(() => {
+      this.router.navigate(['/case-investigation'], {
+        state: { reportData: this.reportData }
+      });
+    }, 100);
   }
 }

@@ -4,7 +4,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './home/home.component';
 import { FraudInvestigationIntakeComponent } from './fraud-investigation-intake/fraud-investigation-intake.component';
 import { FraudInvestigationConsentComponent } from './fraud-investigation-consent/fraud-investigation-consent.component';
-import { SubmitForInvestigationComponent } from './submit-for-investigation/submit-for-investigation.component';
+import { CaseInvestigationComponent } from './case-investigation/case-investigation.component';
 import { inject } from '@angular/core';
 import { UserService } from './services/user.service';
 import { Router } from '@angular/router';
@@ -31,6 +31,10 @@ export const routes: Routes = [
   },
   { path: 'fraud-investigation-consent', component: FraudInvestigationConsentComponent },
   { path: 'fraud-investigation-intake', component: FraudInvestigationIntakeComponent },
-  { path: 'submit-for-investigation', component: SubmitForInvestigationComponent },
+  { path: 'case-investigation', component: CaseInvestigationComponent },
+  {
+    path: 'case-investigation/:id',
+    component: CaseInvestigationComponent
+  },
   { path: '**', redirectTo: '/' }
 ];
