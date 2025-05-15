@@ -2,8 +2,8 @@
   <div class="header">
     <div class="header-content">
       <div>
-        <h1>Case Investigation</h1>
-        <p class="subtitle">Review case details and status updates</p>
+        <h1>Case Submission</h1>
+        <p class="subtitle">Review and submit your case for investigation</p>
       </div>
       <div class="case-id" *ngIf="caseId">
         <span class="case-id-label">Case ID:</span>
@@ -176,8 +176,8 @@
 
       <div *ngIf="success" class="success-container">
         <div class="success-message">
-          <h3>Investigation Submitted Successfully!</h3>
-          <p>Your investigation request has been submitted. Your case ID is: <strong>{{ caseId }}</strong></p>
+          <h3>Case Submitted Successfully!</h3>
+          <p>Your case has been submitted for investigation. Your case ID is: <strong>{{ caseId }}</strong></p>
           <p>Please save this ID for future reference. We will contact you via email with updates.</p>
         </div>
         <button class="home-button" routerLink="/">Return to Home</button>
