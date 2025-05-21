@@ -81,34 +81,32 @@
 
     <!-- Case Insights Panel -->
     <div class="section">
-        <!-- Comments table -->
+        <h2>Case Progress Timeline</h2>
         <div class="comments-table-container">
-          <table class="comments-table">
-            <thead>
-              <tr>
-                <th>Status</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let update of caseDetails?.statusUpdates">
-                <td>
-                  <span class="status-badge" [ngClass]="getStatusClass(update.status)">
-                    {{ update.status | titlecase }}
-                  </span>
-                </td>
-                <td class="comment-cell">
-                  <div>
-                    <div markdown [data]="update.description"></div>
-                    <div class="comment-date">{{ formatDate(update.timestamp) }}</div>
+          <div class="case-timeline">
+            <div *ngFor="let update of caseDetails?.statusUpdates" class="timeline-item">
+              <div class="timeline-header">
+                <div class="timeline-status">{{ update.status }}</div>
+                <div class="timeline-date">{{ formatDate(update.timestamp) }}</div>
+              </div>
+              <div class="timeline-content">
+                <div markdown [data]="update.description"></div>
+                <div class="file-links" *ngIf="update.markdownFileIds && update.markdownFileIds.length > 0">
+                  <div class="file-links-header">Related Documents:</div>
+                  <div class="file-links-container">
+                    <a *ngFor="let fileId of update.markdownFileIds" 
+                       (click)="openMarkdownFile(fileId)" 
+                       class="file-link">
+                      <span class="file-icon">📄</span> {{ getFileTitle(fileId) }}
+                    </a>
                   </div>
-                </td>
-              </tr>
-              <tr *ngIf="!caseDetails?.statusUpdates || (caseDetails?.statusUpdates || []).length === 0">
-                <td colspan="2" class="no-comments">No case insights available yet.</td>
-              </tr>
-            </tbody>
-          </table>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="!caseDetails?.statusUpdates || (caseDetails?.statusUpdates || []).length === 0" class="no-timeline-items">
+              No case insights available yet.
+            </div>
+          </div>
         </div>
     </div>
     

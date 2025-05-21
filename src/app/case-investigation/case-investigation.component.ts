@@ -110,17 +110,7 @@ export class CaseInvestigationComponent implements OnInit {
   toggleIncidentSection(): void {
     this.isIncidentSectionExpanded = !this.isIncidentSectionExpanded;
   }
-  
-  getStatusClass(status: string): string {
-    switch (status) {
-      case 'submitted': return 'status-submitted';
-      case 'under-review': return 'status-review';
-      case 'investigating': return 'status-investigating';
-      case 'escalated': return 'status-escalated';
-      case 'closed': return 'status-closed';
-      default: return '';
-    }
-  }
+
   
   formatDate(date: Date): string {
     return new Date(date).toLocaleString();
@@ -149,7 +139,26 @@ export class CaseInvestigationComponent implements OnInit {
   }
   
   /**
+   * Gets the title for a markdown file by ID
+   * @param fileId The markdown file ID
+   * @returns The title of the markdown file or a default title
+   */
+  getFileTitle(fileId: string): string {
+    // Map of common file IDs to friendly names
+    const fileTitles: {[key: string]: string} = {
+      'update-002': 'Automatic Case Assessment',
+      'update-003': 'Blockchain Forensics Report',
+      'assessment-report': 'Case Assessment Report',
+      'forensics-report': 'Forensics Analysis',
+      'police-report': 'Police Report Template'
+    };
+    
+    return fileTitles[fileId] || 'Document';
+  }
+  
+  /**
    * Opens a markdown file in the modal
+   * @param fileId The markdown file ID to open
    */
   openMarkdownFile(fileId: string): void {
     this.isLoadingCase = true;
