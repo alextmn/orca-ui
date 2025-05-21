@@ -3,9 +3,10 @@
 @use '../../assets/branding/mixins' as mixins;
 
 .fraud-intake-container {
-  background-color: vars.$color-off-white;
-  color: vars.$color-dark-navy;
+  background-color: rgb(42, 46, 57);
+  color: #ffffff;
   min-height: calc(100vh - 93px); // Adjust based on navbar height
+  font-family: 'Arial', sans-serif;
   
   .page-layout {
     display: flex;
@@ -14,41 +15,40 @@
   
   .sidebar {
     width: 320px;
-    background-color: vars.$color-dark-navy;
-    color: vars.$color-off-white;
+    background-color: rgba(255, 255, 255, 0.05);
     padding: 2rem;
-    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
     
     .sidebar-content {
       position: sticky;
       top: 2rem;
       
       h2 {
-        @include mixins.heading-2;
+        font-family: 'Georgia', serif;
+        font-size: 1.8rem;
         margin-bottom: 1rem;
-        color: vars.$color-off-white;
+        color: #a8b5ff;
       }
       
       .welcome-text {
-        @include mixins.body-text;
+        font-size: 1.1rem;
         font-weight: 500;
         margin-bottom: 0.5rem;
-        color: vars.$color-off-white;
+        color: #f5f5f5;
       }
       
       p {
-        @include mixins.body-text;
         margin-bottom: 1.5rem;
-        color: rgba(255, 255, 255, 0.8);
+        color: #d0d0d0;
       }
       
       .important-notes {
         margin-top: 2rem;
         
         h3 {
-          @include mixins.heading-4;
+          font-size: 1.2rem;
           margin-bottom: 1rem;
-          color: vars.$color-off-white;
+          color: #f5f5f5;
         }
         
         .note-item {
@@ -63,8 +63,8 @@
           }
           
           .note-text {
-            @include mixins.body-text;
-            color: rgba(255, 255, 255, 0.8);
+            color: #d0d0d0;
+            line-height: 1.4;
           }
         }
       }
@@ -107,13 +107,13 @@
       width: 32px;
       height: 32px;
       margin: 0 auto;
-      background-color: rgba(0, 0, 0, 0.1);
+      background-color: rgba(255, 255, 255, 0.2);
       border-radius: 50%;
       text-align: center;
       line-height: 32px;
       font-size: 14px;
       font-weight: 600;
-      color: vars.$color-dark-navy;
+      color: #d0d0d0;
       position: relative;
       z-index: 2;
       
@@ -126,8 +126,8 @@
     
     .md-step-title {
       text-align: center;
-      @include mixins.small-text;
-      color: vars.$color-dark-navy;
+      font-size: 0.85rem;
+      color: #d0d0d0;
       margin-top: 0.75rem;
       font-weight: 500;
       overflow: hidden;
@@ -140,7 +140,7 @@
       position: absolute;
       top: 16px;
       height: 1px;
-      background-color: rgba(0, 0, 0, 0.2);
+      background-color: rgba(255, 255, 255, 0.2);
       z-index: 1;
     }
     
@@ -159,12 +159,12 @@
     /* Active Step */
     .md-step.active {
       .md-step-circle {
-        background-color: vars.$color-lavender;
-        color: vars.$color-dark-navy;
+        background-color: #a8b5ff;
+        color: #1E2A3A;
       }
       
       .md-step-title {
-        color: vars.$color-dark-navy;
+        color: #f5f5f5;
         font-weight: 600;
       }
     }
@@ -172,13 +172,13 @@
     /* Completed Step */
     .md-step.done {
       .md-step-circle {
-        background-color: rgba(200, 194, 221, 0.6);
-        color: vars.$color-dark-navy;
+        background-color: rgba(168, 181, 255, 0.6);
+        color: #1E2A3A;
       }
       
       .md-step-bar-left,
       .md-step-bar-right {
-        background-color: rgba(200, 194, 221, 0.6);
+        background-color: rgba(168, 181, 255, 0.6);
       }
     }
     
@@ -210,14 +210,16 @@
     margin-bottom: 2.5rem;
     
     h1 {
-      @include mixins.heading-1;
+      font-family: 'Georgia', serif;
+      font-size: 2.5rem;
+      font-weight: 400;
       margin-bottom: 1rem;
-      color: vars.$color-dark-navy;
+      color: #f5f5f5;
     }
     
     .subtitle {
-      @include mixins.body-text;
-      color: rgba(30, 42, 58, 0.8);
+      font-size: 1.1rem;
+      color: #d0d0d0;
       max-width: 600px;
     }
   }
@@ -227,18 +229,16 @@
     margin: 0 auto;
     
     .form-section {
-      @include mixins.card;
-      background-color: #FFFFFF;
-      box-shadow: vars.$shadow-sm;
-      padding: vars.$spacing-md;
-      border-radius: vars.$border-radius-md;
-      margin-bottom: vars.$spacing-md;
+      background-color: rgba(255, 255, 255, 0.05);
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
       
       h2 {
-        @include mixins.heading-3;
-        margin-top: 0;
-        margin-bottom: vars.$spacing-md;
-        color: vars.$color-dark-navy;
+        font-family: 'Georgia', serif;
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+        color: #f5f5f5;
       }
       
       .form-group {
@@ -250,9 +250,9 @@
         
         label {
           display: block;
-          margin-bottom: vars.$spacing-xs;
+          margin-bottom: 0.5rem;
           font-weight: 500;
-          color: vars.$color-dark-navy;
+          color: #d0d0d0;
         }
         
         .char-count {
@@ -273,23 +273,23 @@
         input, select, textarea {
           width: 100%;
           padding: 0.75rem;
-          background-color: vars.$color-off-white;
-          border: 1px solid rgba(0, 0, 0, 0.1);
-          border-radius: vars.$border-radius-sm;
-          color: vars.$color-dark-navy;
-          font-family: vars.$font-body;
+          background-color: rgba(255, 255, 255, 0.1);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          border-radius: 4px;
+          color: #ffffff;
+          font-family: 'Arial', sans-serif;
           
           &:focus {
             outline: none;
-            border-color: vars.$color-lavender;
+            border-color: #a8b5ff;
           }
           
           &::placeholder {
-            color: rgba(0, 0, 0, 0.4);
+            color: rgba(255, 255, 255, 0.5);
           }
           
           &.ng-invalid.ng-touched {
-            border-color: vars.$color-coral;
+            border-color: #E8A598;
           }
         }
         
@@ -307,27 +307,27 @@
         
         
         .error-message {
-          color: vars.$color-coral;
-          @include mixins.small-text;
-          margin-top: vars.$spacing-xs;
+          color: #E8A598;
+          font-size: 0.85rem;
+          margin-top: 0.5rem;
         }
         
         .dropzone {
-          border: 2px dashed rgba(0, 0, 0, 0.2);
-          border-radius: vars.$border-radius-md;
-          padding: vars.$spacing-lg;
+          border: 2px dashed rgba(168, 181, 255, 0.4);
+          border-radius: 6px;
+          padding: 2rem;
           text-align: center;
-          background-color: rgba(0, 0, 0, 0.02);
-          transition: vars.$transition-default;
-          margin-bottom: vars.$spacing-xs;
+          background-color: rgba(168, 181, 255, 0.05);
+          transition: all 0.3s ease;
+          margin-bottom: 0.5rem;
           min-height: 200px;
           display: flex;
           flex-direction: column;
           justify-content: center;
           
           &.active {
-            border-color: vars.$color-lavender;
-            background-color: rgba(200, 194, 221, 0.1);
+            border-color: #a8b5ff;
+            background-color: rgba(168, 181, 255, 0.1);
           }
           
           &.has-files {
@@ -688,38 +688,59 @@
     .step-navigation {
       display: flex;
       justify-content: space-between;
-      margin-top: vars.$spacing-lg;
+      gap: 1rem;
+      margin-top: 2rem;
       
       button {
-        @include mixins.button-base;
-        padding: vars.$spacing-sm vars.$spacing-md;
-        border-radius: vars.$border-radius-sm;
-        font-weight: 500;
+        padding: 0.75rem 1.5rem;
+        border-radius: 4px;
+        font-weight: 600;
         cursor: pointer;
-        transition: vars.$transition-default;
-        border: none;
-        font-size: vars.$font-size-body;
+        transition: all 0.3s ease;
+        min-width: 150px;
         
-        &:disabled {
-          opacity: 0.5;
-          cursor: not-allowed;
+        .loading-spinner {
+          display: inline-block;
+          position: relative;
+          
+          &:after {
+            content: '.';
+            animation: dots 1.5s steps(5, end) infinite;
+          }
+        }
+      }
+      
+      @keyframes dots {
+        0%, 20% {
+          color: rgba(0,0,0,0);
+          text-shadow: .25em 0 0 rgba(0,0,0,0), .5em 0 0 rgba(0,0,0,0);
+        }
+        40% {
+          color: white;
+          text-shadow: .25em 0 0 rgba(0,0,0,0), .5em 0 0 rgba(0,0,0,0);
+        }
+        60% {
+          text-shadow: .25em 0 0 white, .5em 0 0 rgba(0,0,0,0);
+        }
+        80%, 100% {
+          text-shadow: .25em 0 0 white, .5em 0 0 white;
         }
       }
       
       .prev-button {
-        @include mixins.button-secondary;
+        background-color: transparent;
+        color: #d0d0d0;
+        border: 1px solid #d0d0d0;
         
-        &:hover:not(:disabled) {
-          background-color: color.adjust(vars.$color-off-white, $lightness: -5%);
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.1);
         }
       }
       
-      .next-button, .submit-button {
-        @include mixins.button-primary;
-        
-        &:hover:not(:disabled) {
-          background-color: color.adjust(vars.$color-black, $lightness: 15%);
-        }
+      .next-button {
+        background-color: rgba(168, 181, 255, 0.8);
+        color: #1E2A3A;
+        border: none;
         
         &:hover:not([disabled]) {
           background-color: #a8b5ff;
