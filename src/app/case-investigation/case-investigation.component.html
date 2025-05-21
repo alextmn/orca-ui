@@ -17,7 +17,57 @@
     <p class="loading-message">Loading your case...</p>
   </div>
 
-  <div *ngIf="reportData" class="report-summary">
+  <div *ngIf="reportData" class="page-layout">
+    <!-- Sidebar with Helpful Resources -->
+    <div class="sidebar">
+      <div class="sidebar-content">
+        <h2>Helpful Resources</h2>
+        <p class="welcome-text">Post-Incident Support</p>
+        
+        <div class="resource-section">
+          <h3>Educational Content</h3>
+          <div class="resource-item">
+            <span class="resource-icon">📚</span>
+            <span class="resource-text">Understanding Crypto Scams: Types and Prevention</span>
+          </div>
+          <div class="resource-item">
+            <span class="resource-icon">🔒</span>
+            <span class="resource-text">Securing Your Digital Assets: Best Practices</span>
+          </div>
+          <div class="resource-item">
+            <span class="resource-icon">🔍</span>
+            <span class="resource-text">How Blockchain Forensics Works</span>
+          </div>
+        </div>
+        
+        <div class="resource-section">
+          <h3>Post-Incident Checklist</h3>
+          <div class="resource-item">
+            <span class="resource-icon">✅</span>
+            <span class="resource-text">Secure your remaining assets immediately</span>
+          </div>
+          <div class="resource-item">
+            <span class="resource-icon">✅</span>
+            <span class="resource-text">Change passwords on all related accounts</span>
+          </div>
+          <div class="resource-item">
+            <span class="resource-icon">✅</span>
+            <span class="resource-text">Report to relevant exchanges and authorities</span>
+          </div>
+          <div class="resource-item">
+            <span class="resource-icon">✅</span>
+            <span class="resource-text">Document all communications with scammers</span>
+          </div>
+          <div class="resource-item">
+            <span class="resource-icon">✅</span>
+            <span class="resource-text">Enable 2FA on all your accounts</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
     <div class="section">
       <h2>Contact Information</h2>
       <div class="info-row">
@@ -79,120 +129,39 @@
       </div>
     </div>
 
-    <!-- Case Comments Panel -->
-    <div class="section collapsible-section">
-      <div class="section-header" (click)="toggleCommentsSection()">
-        <h2>Case Comments</h2>
-        <div class="toggle-icon">{{ isCommentsExpanded ? '▼' : '▶' }}</div>
-      </div>
-      
-      <div class="section-content" [ngClass]="{'collapsed': !isCommentsExpanded}">
-        <!-- Add new comment form -->
-        <div class="add-comment-form">
-          <div class="form-group">
-            <label for="newComment">Add a Comment</label>
-            <textarea 
-              id="newComment" 
-              [(ngModel)]="newComment" 
-              rows="3" 
-              placeholder="Enter your comment here..."
-              [disabled]="isAddingComment"
-            ></textarea>
-          </div>
-          
-          <div class="form-group">
-            <label for="commentStatus">Status</label>
-            <select id="commentStatus" [(ngModel)]="commentStatus" [disabled]="isAddingComment">
-              <option value="submitted">Submitted</option>
-              <option value="under-review">Under Review</option>
-              <option value="investigating">Investigating</option>
-              <option value="escalated">Escalated</option>
-              <option value="closed">Closed</option>
-            </select>
-          </div>
-          
-          <div class="form-group">
-            <label>Attach Files</label>
-            <div class="file-upload-container">
-              <input 
-                type="file" 
-                id="fileUpload" 
-                multiple 
-                (change)="onFileSelected($event)" 
-                accept=".jpg,.jpeg,.png,.pdf,.doc,.docx,.xls,.xlsx,.txt"
-                [disabled]="isAddingComment"
-              >
-              <label for="fileUpload" class="file-upload-button" [class.disabled]="isAddingComment">Choose Files</label>
-              <span class="file-name" *ngIf="selectedFiles.length > 0">{{ selectedFiles.length }} file(s) selected</span>
-            </div>
-            <div class="upload-hint">Accepted formats: JPG, PNG, PDF, DOC, XLSX, TXT (max 10MB each)</div>
-            <div class="error-message" *ngIf="fileUploadError">{{ fileUploadError }}</div>
-          </div>
-          
-          <div class="error-message" *ngIf="commentError">{{ commentError }}</div>
-          
-          <button 
-            class="add-comment-button" 
-            (click)="addComment()" 
-            [disabled]="isAddingComment || !newComment.trim()"
-          >
-            <span *ngIf="!isAddingComment">Add Comment</span>
-            <span *ngIf="isAddingComment" class="loading-spinner">Adding...</span>
-          </button>
-        </div>
-        
-        <!-- Comments table -->
+    <!-- Case Insights Panel -->
+    <div class="section">
+        <h2>Case Progress Timeline</h2>
         <div class="comments-table-container">
-          <h3>Case Insights</h3>
-          <table class="comments-table">
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Comment</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let comment of caseComments">
-                <td>{{ formatDate(comment.timestamp) }}</td>
-                <td class="comment-cell">
-                  <div *ngIf="!isMarkdownReport(comment.comment) && !isAssessmentRow(comment)">
-                    <div markdown [data]="comment.comment"></div>
-                  </div>
-                  <div *ngIf="isMarkdownReport(comment.comment) && !isAssessmentRow(comment)" class="report-link">
-                    <a (click)="openMarkdownModal(comment)" class="markdown-link">
-                      <span *ngIf="comment.updatedBy === 'Automatic Assessment System'">View Automatic Case Assessment</span>
-                      <span *ngIf="comment.updatedBy === 'Blockchain Forensics Bot'">View Blockchain Forensics Report</span>
-                      <span *ngIf="comment.updatedBy !== 'Automatic Assessment System' && comment.updatedBy !== 'Blockchain Forensics Bot'">View Detailed Report</span>
+          <div class="case-timeline">
+            <div *ngFor="let update of caseDetails?.statusUpdates" class="timeline-item">
+              <div class="timeline-header">
+                <div class="timeline-status">{{ update.status }}</div>
+                <div class="timeline-date">{{ formatDate(update.timestamp) }}</div>
+              </div>
+              <div class="timeline-content">
+                <div markdown [data]="update.description"></div>
+                <div class="file-links" *ngIf="update.markdownFileIds && update.markdownFileIds.length > 0">
+                  <div class="file-links-header">Related Documents:</div>
+                  <div class="file-links-container">
+                    <a *ngFor="let fileId of update.markdownFileIds" 
+                       (click)="openMarkdownFile(fileId)" 
+                       class="file-link">
+                      <span class="file-icon">📄</span> {{ getFileTitle(fileId) }}
                     </a>
                   </div>
-                  <div *ngIf="isAssessmentRow(comment)" class="assessment-summary">
-                    <p class="assessment-message">Initial assessment has been completed. Please see the reports we generated based on your case:</p>
-                    <div class="assessment-links">
-                      <ng-container *ngIf="comment.reportLinks && comment.reportLinks.length > 0">
-                        <a *ngFor="let link of comment.reportLinks" (click)="openReportByType(link.reportType)" class="assessment-link">
-                          <i class="assessment-icon">{{ link.icon }}</i> {{ link.title }}
-                        </a>
-                      </ng-container>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <span class="status-badge" [ngClass]="getStatusClass(comment.status)">
-                    {{ comment.status | titlecase }}
-                  </span>
-                </td>
-              </tr>
-              <tr *ngIf="caseComments.length === 0">
-                <td colspan="3" class="no-comments">No comments yet. Add your first comment above.</td>
-              </tr>
-            </tbody>
-          </table>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="!caseDetails || !caseDetails.statusUpdates || caseDetails.statusUpdates.length === 0" class="no-timeline-items">
+              No case insights available yet.
+            </div>
+          </div>
         </div>
-      </div>
     </div>
     
     <!-- Action section removed as requested -->
+    </div>
   </div>
 </div>
 
@@ -200,11 +169,13 @@
 <div class="markdown-modal" *ngIf="showMarkdownModal" (click)="closeMarkdownModal($event)">
   <div class="markdown-modal-content" (click)="$event.stopPropagation()">
     <div class="markdown-modal-header">
-      <h2>{{ selectedComment?.updatedBy }} Report</h2>
+      <h2 *ngIf="selectedUpdate">{{ selectedUpdate?.updatedBy }} Report</h2>
+      <h2 *ngIf="selectedMarkdownFile">{{ selectedMarkdownFile?.title }}</h2>
       <button class="close-button" (click)="closeMarkdownModal($event)">&times;</button>
     </div>
     <div class="markdown-modal-body">
-      <div markdown [data]="selectedComment?.comment"></div>
+      <div *ngIf="selectedUpdate" markdown [data]="selectedUpdate?.description"></div>
+      <div *ngIf="selectedMarkdownFile" markdown [data]="selectedMarkdownFile?.content"></div>
     </div>
     <div class="markdown-modal-footer">
       <button class="close-modal-button" (click)="closeMarkdownModal($event)">Close</button>
