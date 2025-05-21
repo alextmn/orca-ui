@@ -201,6 +201,13 @@
                   &.comment-cell {
                     max-width: 400px;
                     
+                    .comment-date {
+                      font-size: 0.8rem;
+                      color: #a0a0a0;
+                      margin-top: 0.5rem;
+                      font-style: italic;
+                    }
+                    
                     .report-link {
                       .markdown-link {
                         display: inline-block;
