@@ -16,6 +16,7 @@ export class FraudInvestigationIntakeComponent implements OnInit {
   selectedFiles: File[] = [];
   isSubmitting = false;
   submitError: string | null = null;
+  isDragOver = false;
   
   constructor(
     private fb: FormBuilder,
@@ -82,8 +83,64 @@ export class FraudInvestigationIntakeComponent implements OnInit {
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files) {
-      this.selectedFiles = Array.from(input.files);
+      // Add new files to existing array
+      const newFiles = Array.from(input.files);
+      this.selectedFiles = [...this.selectedFiles, ...newFiles];
     }
+  }
+  
+  onDragOver(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragOver = true;
+  }
+  
+  onDragLeave(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragOver = false;
+  }
+  
+  onDrop(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragOver = false;
+    
+    if (event.dataTransfer?.files) {
+      const files = Array.from(event.dataTransfer.files);
+      const validFiles = files.filter(file => {
+        const fileType = file.type.toLowerCase();
+        return fileType.includes('image/jpeg') || 
+               fileType.includes('image/png') || 
+               fileType.includes('application/pdf');
+      });
+      
+      if (validFiles.length > 0) {
+        this.selectedFiles = [...this.selectedFiles, ...validFiles];
+      }
+    }
+  }
+  
+  removeFile(index: number): void {
+    this.selectedFiles = this.selectedFiles.filter((_, i) => i !== index);
+  }
+  
+  getFileIconClass(fileType: string): string {
+    if (fileType.includes('image/jpeg') || fileType.includes('image/png')) {
+      return 'image-icon';
+    } else if (fileType.includes('application/pdf')) {
+      return 'pdf-icon';
+    } else {
+      return 'file-icon';
+    }
+  }
+  
+  formatFileSize(bytes: number): string {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   }
   
   onSubmit(): void {

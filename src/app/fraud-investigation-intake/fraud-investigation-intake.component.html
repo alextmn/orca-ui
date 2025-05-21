@@ -40,6 +40,9 @@
         <div class="form-group">
           <label for="fullName">Full Name</label>
           <input type="text" id="fullName" formControlName="fullName" placeholder="Enter your full name">
+          <div class="helper-text">
+            Your legal name as it would appear on official documents.
+          </div>
           <div class="error-message" *ngIf="fraudForm.get('fullName')?.invalid && fraudForm.get('fullName')?.touched">
             Full name is required
           </div>
@@ -47,6 +50,9 @@
         <div class="form-group">
           <label for="email">Email Address</label>
           <input type="email" id="email" formControlName="email" placeholder="Enter your email address">
+          <div class="helper-text">
+            We'll use this email to communicate with you about your case.
+          </div>
           <div class="error-message" *ngIf="fraudForm.get('email')?.invalid && fraudForm.get('email')?.touched">
             Valid email is required
           </div>
@@ -58,6 +64,9 @@
         <div class="form-group">
           <label for="victimWallet">Your Wallet Address(es)</label>
           <input type="text" id="victimWallet" formControlName="victimWallet" placeholder="Enter comma-separated list of your wallet addresses">
+          <div class="helper-text">
+            Format examples: 0x1234...5678 (ETH), bc1q... (BTC), etc. Enter multiple addresses separated by commas.
+          </div>
           <div class="error-message" *ngIf="fraudForm.get('victimWallet')?.invalid && fraudForm.get('victimWallet')?.touched">
             At least one wallet address is required
           </div>
@@ -65,18 +74,30 @@
         <div class="form-group">
           <label for="scammerWallet">Scammer Wallet Address(es) (if known)</label>
           <input type="text" id="scammerWallet" formControlName="scammerWallet" placeholder="Enter comma-separated list of scammer's wallet addresses">
+          <div class="helper-text">
+            Any wallet addresses you believe are associated with the scammer. This helps track fund movements.
+          </div>
         </div>
         <div class="form-group">
           <label for="exchangePlatform">Exchange or Platform Name</label>
           <input type="text" id="exchangePlatform" formControlName="exchangePlatform" placeholder="Enter exchange or platform name">
+          <div class="helper-text">
+            The name of the exchange, DeFi platform, or website where the incident occurred (e.g., Binance, Uniswap, MetaMask).
+          </div>
         </div>
         <div class="form-group">
           <label for="tokenName">Coin(s) / Token(s)</label>
           <input type="text" id="tokenName" formControlName="tokenName" placeholder="Enter comma-separated list of coins/tokens (e.g., BTC, ETH, USDT)">
+          <div class="helper-text">
+            List all cryptocurrencies or tokens involved in the incident. Use standard ticker symbols when possible.
+          </div>
         </div>
         <div class="form-group">
           <label for="amountLost">Amount Lost Value, USD</label>
           <input type="number" id="amountLost" formControlName="amountLost" placeholder="Enter amount lost in USD" min="0" step="0.01">
+          <div class="helper-text">
+            Approximate total value lost in USD at the time of the incident. For multiple assets, please provide the combined total.
+          </div>
           <div class="error-message" *ngIf="fraudForm.get('amountLost')?.invalid && fraudForm.get('amountLost')?.touched">
             Valid USD amount is required
           </div>
@@ -100,6 +121,9 @@
             (input)="updateCharCount()"
             maxlength="1000"
           ></textarea>
+          <div class="helper-text">
+            Include details such as: how you were contacted, what platform/website was involved, any red flags you noticed, timeline of events, and any communication with the scammer.
+          </div>
           <div class="error-message" *ngIf="fraudForm.get('incidentDescription')?.invalid && fraudForm.get('incidentDescription')?.touched">
             Description is required
           </div>
@@ -110,18 +134,54 @@
         <h2>Supporting Evidence</h2>
         <div class="form-group">
           <label>Upload Screenshots or Documents</label>
-          <div class="file-upload-container">
-            <input type="file" id="fileUpload" formControlName="fileUpload" multiple (change)="onFileSelected($event)" accept=".jpg,.jpeg,.png,.pdf">
-            <label for="fileUpload" class="file-upload-button">Choose Files</label>
-            <span class="file-name" *ngIf="selectedFiles.length > 0">{{ selectedFiles.length }} file(s) selected</span>
+          <div class="dropzone" 
+               [class.active]="isDragOver" 
+               [class.has-files]="selectedFiles.length > 0"
+               (dragover)="onDragOver($event)" 
+               (dragleave)="onDragLeave($event)" 
+               (drop)="onDrop($event)">
+            
+            <div class="dropzone-content" *ngIf="selectedFiles.length === 0">
+              <div class="dropzone-icon">
+                <i class="upload-icon"></i>
+              </div>
+              <p class="dropzone-text">Drag and drop files here</p>
+              <p class="dropzone-text-small">or</p>
+              <input type="file" id="fileUpload" formControlName="fileUpload" multiple (change)="onFileSelected($event)" accept=".jpg,.jpeg,.png,.pdf" hidden>
+              <label for="fileUpload" class="file-upload-button">Browse Files</label>
+            </div>
+            
+            <div class="file-list" *ngIf="selectedFiles.length > 0">
+              <div class="file-item" *ngFor="let file of selectedFiles; let i = index">
+                <div class="file-icon" [ngClass]="getFileIconClass(file.type)"></div>
+                <div class="file-details">
+                  <div class="file-name">{{ file.name }}</div>
+                  <div class="file-size">{{ formatFileSize(file.size) }}</div>
+                </div>
+                <button type="button" class="remove-file" (click)="removeFile(i)">
+                  <i class="remove-icon"></i>
+                </button>
+              </div>
+              <div class="dropzone-footer">
+                <input type="file" id="addMoreFiles" formControlName="fileUpload" multiple (change)="onFileSelected($event)" accept=".jpg,.jpeg,.png,.pdf" hidden>
+                <label for="addMoreFiles" class="add-more-button">Add More Files</label>
+              </div>
+            </div>
           </div>
+          
           <div class="upload-hint">Accepted formats: JPG, PNG, PDF (max 10MB each)</div>
+          <div class="helper-text">
+            Upload screenshots of communications, transaction receipts, wallet transactions, or any other evidence related to the incident.
+          </div>
         </div>
         
         <div class="form-group">
           <label for="evidenceUrls">Evidence URLs</label>
           <textarea id="evidenceUrls" formControlName="evidenceUrls" rows="3" placeholder="Paste links to relevant evidence (one per line)"></textarea>
           <div class="upload-hint">Include links to social media posts, websites, or other online evidence</div>
+          <div class="helper-text">
+            Provide links to any online content related to the scam, such as social media profiles, websites, forum posts, or blockchain explorer links showing transactions.
+          </div>
         </div>
       </div>
 
