@@ -169,13 +169,13 @@
 <div class="markdown-modal" *ngIf="showMarkdownModal" (click)="closeMarkdownModal($event)">
   <div class="markdown-modal-content" (click)="$event.stopPropagation()">
     <div class="markdown-modal-header">
-      <h2 *ngIf="selectedUpdate">{{ selectedUpdate?.updatedBy }} Report</h2>
-      <h2 *ngIf="selectedMarkdownFile">{{ selectedMarkdownFile?.title }}</h2>
+      <h2 *ngIf="selectedUpdate">{{ selectedUpdate.updatedBy }} Report</h2>
+      <h2 *ngIf="selectedMarkdownFile">{{ selectedMarkdownFile.title }}</h2>
       <button class="close-button" (click)="closeMarkdownModal($event)">&times;</button>
     </div>
     <div class="markdown-modal-body">
-      <div *ngIf="selectedUpdate" markdown [data]="selectedUpdate?.description"></div>
-      <div *ngIf="selectedMarkdownFile" markdown [data]="selectedMarkdownFile?.content"></div>
+      <div *ngIf="selectedUpdate" markdown [data]="selectedUpdate.description"></div>
+      <div *ngIf="selectedMarkdownFile" markdown [data]="selectedMarkdownFile.content"></div>
     </div>
     <div class="markdown-modal-footer">
       <button class="close-modal-button" (click)="closeMarkdownModal($event)">Close</button>
