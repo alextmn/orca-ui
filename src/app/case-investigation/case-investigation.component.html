@@ -103,7 +103,7 @@
                 </div>
               </div>
             </div>
-            <div *ngIf="!caseDetails?.statusUpdates || (caseDetails?.statusUpdates || []).length === 0" class="no-timeline-items">
+            <div *ngIf="!caseDetails || !caseDetails.statusUpdates || caseDetails.statusUpdates.length === 0" class="no-timeline-items">
               No case insights available yet.
             </div>
           </div>

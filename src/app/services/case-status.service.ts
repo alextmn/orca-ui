@@ -242,7 +242,6 @@ Victim Wallet → 0x7a23... → 0x9b45... → 0x3f67... → Exchange
           status: 'Report Finalized',
           description: 'Investigative findings have been compiled',
           updatedBy: 'System',
-          markdownFileIds: ["assessment-report"],
         },
         {
           id: 'update-005',
@@ -259,7 +258,8 @@ Victim Wallet → 0x7a23... → 0x9b45... → 0x3f67... → Exchange
           timestamp: new Date('2025-05-14T10:30:00'),
           status: 'Report Filed',
           description: ' Download a copy of your report',
-          updatedBy: 'Thomas Reynolds'
+          updatedBy: 'Thomas Reynolds',
+          markdownFileIds: ["forensics-report"],
         }
       ]
     }
