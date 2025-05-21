@@ -47,16 +47,13 @@
             Full name is required
           </div>
         </div>
-        <div class="form-group">
+        <div class="form-group" *ngIf="!isAnonymous">
           <label for="email">Email Address</label>
-          <input type="email" id="email" formControlName="email" placeholder="Enter your email address" [disabled]="isAnonymous">
-          <div class="helper-text" *ngIf="!isAnonymous">
+          <input type="email" id="email" formControlName="email" placeholder="Enter your email address">
+          <div class="helper-text">
             We'll use this email to communicate with you about your case.
           </div>
-          <div class="helper-text warning" *ngIf="isAnonymous">
-            You've chosen to submit anonymously. We won't be able to contact you with updates about your case.
-          </div>
-          <div class="error-message" *ngIf="fraudForm.get('email')?.invalid && fraudForm.get('email')?.touched && !isAnonymous">
+          <div class="error-message" *ngIf="fraudForm.get('email')?.invalid && fraudForm.get('email')?.touched">
             Valid email is required
           </div>
         </div>
