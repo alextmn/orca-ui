@@ -163,11 +163,11 @@ export class FraudReportService {
    * @param id The report ID
    * @returns An observable with the found report or error
    */
-  getReportById(id: string): Observable<FraudReport> {
+  getReportById(id: string): Observable<FraudReport | null> {
     const report = this.mockReports.find(r => r.id === id);
     
     if (report) {
-      return of(report).pipe(delay(800));
+      return of(report).pipe(delay(500)); // Simulate API delay
     } else {
       // Generate dynamic mock data for any case ID
       const dynamicReport: FraudReport = {
@@ -200,5 +200,25 @@ export class FraudReportService {
   getReportsByUser(email: string): Observable<FraudReport[]> {
     const reports = this.mockReports.filter(r => r.email.toLowerCase() === email.toLowerCase());
     return of(reports).pipe(delay(1000));
+  }
+  
+  /**
+   * Updates the email address for a report
+   * @param id The report ID
+   * @param email The new email address
+   * @returns An Observable of the updated FraudReport
+   */
+  updateReportEmail(id: string, email: string): Observable<FraudReport> {
+    const reportIndex = this.mockReports.findIndex(r => r.id === id);
+    
+    if (reportIndex === -1) {
+      return throwError(() => new Error(`Report with ID ${id} not found`));
+    }
+    
+    // Update the email in the mock data
+    this.mockReports[reportIndex].email = email;
+    
+    // Return the updated report
+    return of(this.mockReports[reportIndex]).pipe(delay(800)); // Simulate API delay
   }
 }

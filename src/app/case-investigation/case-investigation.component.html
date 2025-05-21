@@ -8,6 +8,10 @@
       <div class="case-id" *ngIf="caseId">
         <span class="case-id-label">Case ID:</span>
         <span class="case-id-value">{{ caseId }}</span>
+        <button class="copy-button" (click)="copyToClipboard(caseId)" title="Copy Case ID">
+          <span class="copy-icon">📋</span>
+          <span class="copy-text">Copy</span>
+        </button>
       </div>
     </div>
   </div>
@@ -72,11 +76,28 @@
       <h2>Contact Information</h2>
       <div class="info-row">
         <div class="info-label">Full Name:</div>
-        <div class="info-value">{{ reportData.fullName }}</div>
+        <div class="info-value">{{ reportData.fullName || 'Not provided' }}</div>
       </div>
       <div class="info-row">
         <div class="info-label">Email:</div>
-        <div class="info-value">{{ reportData.email }}</div>
+        <div class="info-value">{{ reportData.email || 'Not provided' }}</div>
+      </div>
+      
+      <!-- Email notification opt-in for anonymous submissions -->
+      <div class="email-opt-in">
+        <div class="opt-in-message">
+          <span class="warning-icon">⚠️</span>
+          <p>You submitted this case without contact information. We're unable to provide case updates unless an email is added.</p>
+        </div>
+        <div class="opt-in-form">
+          <div class="form-group">
+            <label for="contactEmail">Email address for case updates:</label>
+            <input type="email" id="contactEmail" [(ngModel)]="contactEmail" placeholder="Enter your email" class="email-input">
+          </div>
+          <button class="submit-email-btn" (click)="updateContactEmail()" [disabled]="!isValidEmail(contactEmail)">
+            <span class="btn-text">Save Email</span>
+          </button>
+        </div>
       </div>
     </div>
 

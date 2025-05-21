@@ -27,6 +27,16 @@ export class CaseInvestigationComponent implements OnInit {
   showMarkdownModal = false;
   selectedUpdate: CaseStatusUpdate | null = null;
   selectedMarkdownFile: MarkdownFile | null = null;
+  
+  // Copy to clipboard properties
+  showCopySuccess = false;
+  copyTimeout: any = null;
+  
+  // Email opt-in properties
+  contactEmail = '';
+  isUpdatingEmail = false;
+  emailUpdateSuccess = false;
+  emailUpdateError: string | null = null;
 
   constructor(
     private fraudReportService: FraudReportService,
@@ -138,6 +148,90 @@ export class CaseInvestigationComponent implements OnInit {
     document.body.style.overflow = 'auto';
   }
   
+  /**
+   * Copies the provided text to the clipboard
+   * @param text The text to copy to the clipboard
+   */
+  copyToClipboard(text: string): void {
+    navigator.clipboard.writeText(text).then(() => {
+      // Show success state
+      this.showCopySuccess = true;
+      
+      // Clear any existing timeout
+      if (this.copyTimeout) {
+        clearTimeout(this.copyTimeout);
+      }
+      
+      // Reset after 2 seconds
+      this.copyTimeout = setTimeout(() => {
+        this.showCopySuccess = false;
+      }, 2000);
+      
+      // Optionally show a toast notification
+      this.showNotification('Case ID copied to clipboard');
+    }).catch(err => {
+      console.error('Could not copy text: ', err);
+    });
+  }
+  
+  /**
+   * Shows a temporary notification message
+   * @param message The message to display
+   */
+  private showNotification(message: string): void {
+    // This is a placeholder for a notification system
+    // You can implement a toast notification here or use an existing service
+    console.log(message);
+  }
+  
+  /**
+   * Validates an email address format
+   * @param email The email address to validate
+   * @returns True if the email is valid, false otherwise
+   */
+  isValidEmail(email: string | null | undefined): boolean {
+    if (!email) return false;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegex.test(email);
+  }
+  
+  /**
+   * Updates the contact email for the current case
+   */
+  updateContactEmail(): void {
+    if (!this.isValidEmail(this.contactEmail) || !this.caseId) {
+      return;
+    }
+    
+    this.isUpdatingEmail = true;
+    this.emailUpdateError = null;
+    
+    // Update the report data locally first for immediate feedback
+    if (this.reportData) {
+      this.reportData.email = this.contactEmail;
+    }
+    
+    // Call the service to update the email on the server
+    this.fraudReportService.updateReportEmail(this.caseId, this.contactEmail)
+      .subscribe({
+        next: () => {
+          this.isUpdatingEmail = false;
+          this.emailUpdateSuccess = true;
+          this.showNotification('Email updated successfully. You will now receive case updates.');
+          
+          // Reset success message after 3 seconds
+          setTimeout(() => {
+            this.emailUpdateSuccess = false;
+          }, 3000);
+        },
+        error: (error: Error) => {
+          this.isUpdatingEmail = false;
+          this.emailUpdateError = 'Failed to update email. Please try again.';
+          console.error('Error updating email:', error);
+        }
+      });
+  }
+
   /**
    * Gets the title for a markdown file by ID
    * @param fileId The markdown file ID
