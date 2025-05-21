@@ -57,7 +57,34 @@
 }
 
 .app-content {
-  min-height: calc(100vh - 93px); // Adjust based on navbar height
+  min-height: calc(100vh - 93px - 50px); // Adjust based on navbar height and footer height
+}
+
+// Global footer styles
+.global-footer {
+  background-color: rgb(42, 46, 57);
+  padding: 1rem 0;
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  
+  .footer-links {
+    a {
+      color: #a8b5ff;
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.3s ease;
+      
+      &:hover {
+        color: lighten(#a8b5ff, 15%);
+        text-decoration: underline;
+      }
+    }
+    
+    .divider {
+      color: rgba(255, 255, 255, 0.3);
+      margin: 0 0.5rem;
+    }
+  }
 }
 
 // Responsive adjustments
