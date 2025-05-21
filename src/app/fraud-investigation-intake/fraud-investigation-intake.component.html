@@ -271,6 +271,40 @@
         <button type="button" class="cancel-button" routerLink="/" [disabled]="isSubmitting">Cancel</button>
       </div>
     </form>
+      
+      <!-- Processing Screen (appears after form submission) -->
+      <div class="processing-screen" *ngIf="showProcessingScreen">
+        <div class="processing-container">
+          <div class="processing-header">
+            <h2>Processing Your Report</h2>
+            <p class="case-id">Case ID: <span>{{ caseId }}</span></p>
+          </div>
+          
+          <div class="processing-steps">
+            <div *ngFor="let step of processingSteps" 
+                 class="processing-step"
+                 [class.pending]="step.status === 'pending'"
+                 [class.active]="step.status === 'active'"
+                 [class.complete]="step.status === 'complete'">
+              <div class="step-indicator">
+                <div class="step-circle">
+                  <span *ngIf="step.status === 'pending'" class="pending-icon"></span>
+                  <span *ngIf="step.status === 'active'" class="active-icon"></span>
+                  <span *ngIf="step.status === 'complete'" class="complete-icon">✓</span>
+                </div>
+                <div class="step-line" *ngIf="!isLastProcessingStep(step)"></div>
+              </div>
+              <div class="step-content">
+                <div class="step-text">{{ step.text }}</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="processing-footer">
+            <p>Please wait while we process your report...</p>
+          </div>
+        </div>
+      </div>
       </div>
     </div>
   </div>

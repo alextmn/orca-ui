@@ -18,6 +18,19 @@ export class FraudInvestigationIntakeComponent implements OnInit {
   submitError: string | null = null;
   isDragOver = false;
   isAnonymous = false;
+  private lastEmailValue: string = '';
+  
+  // Processing screen properties
+  showProcessingScreen = false;
+  processingSteps = [
+    { text: 'Validating submission...', status: 'pending', delay: 1000 },
+    { text: 'Analyzing on-chain activity...', status: 'pending', delay: 2500 },
+    { text: 'Checking for similar cases...', status: 'pending', delay: 2000 },
+    { text: 'Generating case profile...', status: 'pending', delay: 1500 },
+    { text: 'Preparing investigation dashboard...', status: 'pending', delay: 2000 }
+  ];
+  caseId: string = '';
+  reportData: any = null;
   
   // Multi-step form properties
   currentStep = 1;
@@ -200,8 +213,6 @@ export class FraudInvestigationIntakeComponent implements OnInit {
     emailControl?.updateValueAndValidity();
   }
   
-  private lastEmailValue: string = '';
-  
   // Multi-step navigation methods
   nextStep(): void {
     if (this.currentStep < this.totalSteps) {
@@ -311,11 +322,11 @@ export class FraudInvestigationIntakeComponent implements OnInit {
         this.isSubmitting = true;
         
         // Generate a case ID
-        const caseId = `FR-${new Date().getFullYear()}-${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`;
+        this.caseId = `FR-${new Date().getFullYear()}-${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`;
         
         // Prepare the report data
-        const reportData: FraudReport = {
-          id: caseId, // Add the case ID to the report data
+        this.reportData = {
+          id: this.caseId, // Add the case ID to the report data
           fullName: this.fraudForm.value.fullName || '',
           email: this.isAnonymous ? 'anonymous' : (this.fraudForm.value.email || ''),
           isAnonymous: this.isAnonymous,
@@ -332,18 +343,14 @@ export class FraudInvestigationIntakeComponent implements OnInit {
         
         // Log files for debugging
         console.log('Files to upload:', this.selectedFiles);
-        console.log('Generated case ID:', caseId);
+        console.log('Generated case ID:', this.caseId);
         
-        // Use timeout to ensure any pending operations complete
-        setTimeout(() => {
-          // Navigate to the case investigation page with the case ID as a query parameter
-          this.router.navigate(['/case-investigation'], { 
-            queryParams: { case: caseId },
-            state: { reportData }
-          });
-        }, 100);
+        // Show processing screen and start the animation sequence
+        this.showProcessingScreen = true;
+        this.startProcessingAnimation();
+        
       } catch (error) {
-        console.error('Navigation error:', error);
+        console.error('Submission error:', error);
         this.isSubmitting = false;
         this.submitError = 'An error occurred while processing your form. Please try again.';
       }
@@ -354,5 +361,40 @@ export class FraudInvestigationIntakeComponent implements OnInit {
         control?.markAsTouched();
       });
     }
+  }
+  
+  // Processing screen animation methods
+  startProcessingAnimation(): void {
+    let totalDelay = 0;
+    
+    // Process each step with its own delay
+    this.processingSteps.forEach((step, index) => {
+      totalDelay += step.delay;
+      
+      // Set timeout for each step to change status
+      setTimeout(() => {
+        step.status = 'complete';
+        
+        // If this is the last step, navigate to the case investigation page after a short delay
+        if (index === this.processingSteps.length - 1) {
+          setTimeout(() => {
+            this.navigateToCaseInvestigation();
+          }, 1000);
+        }
+      }, totalDelay);
+    });
+  }
+  
+  navigateToCaseInvestigation(): void {
+    // Navigate to the case investigation page with the case ID as a query parameter
+    this.router.navigate(['/case-investigation'], { 
+      queryParams: { case: this.caseId },
+      state: { reportData: this.reportData }
+    });
+  }
+  
+  // Helper method to check if a processing step is the last one
+  isLastProcessingStep(step: any): boolean {
+    return this.processingSteps.indexOf(step) === this.processingSteps.length - 1;
   }
 }
