@@ -19,6 +19,26 @@ export class FraudInvestigationIntakeComponent implements OnInit {
   isDragOver = false;
   isAnonymous = false;
   
+  // Multi-step form properties
+  currentStep = 1;
+  totalSteps = 5;
+  stepTitles = [
+    'Contact Information',
+    'Incident Details',
+    'Incident Description',
+    'Supporting Evidence',
+    'Terms and Consent'
+  ];
+  
+  // Form validation status for each step
+  stepValidation = {
+    1: false, // Contact Information
+    2: false, // Incident Details
+    3: false, // Incident Description
+    4: true,  // Supporting Evidence (optional)
+    5: false  // Terms and Consent
+  };
+  
   constructor(
     private fb: FormBuilder,
     private fraudReportService: FraudReportService,
@@ -28,6 +48,17 @@ export class FraudInvestigationIntakeComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.loadMockData();
+    this.updateStepValidation();
+    
+    // Initialize progress bar CSS variables
+    const root = document.documentElement;
+    root.style.setProperty('--completed-steps', '0');
+    root.style.setProperty('--total-steps', this.totalSteps.toString());
+    
+    // Subscribe to form value changes to update step validation
+    this.fraudForm.valueChanges.subscribe(() => {
+      this.updateStepValidation();
+    });
   }
   
   initForm(): void {
@@ -170,6 +201,102 @@ export class FraudInvestigationIntakeComponent implements OnInit {
   }
   
   private lastEmailValue: string = '';
+  
+  // Multi-step navigation methods
+  nextStep(): void {
+    if (this.currentStep < this.totalSteps) {
+      this.currentStep++;
+      window.scrollTo(0, 0);
+      this.updateProgressBar();
+    }
+  }
+  
+  prevStep(): void {
+    if (this.currentStep > 1) {
+      this.currentStep--;
+      window.scrollTo(0, 0);
+      this.updateProgressBar();
+    }
+  }
+  
+  goToStep(step: number): void {
+    if (step >= 1 && step <= this.totalSteps) {
+      this.currentStep = step;
+      window.scrollTo(0, 0);
+      this.updateProgressBar();
+    }
+  }
+  
+  isStepValid(step: number): boolean {
+    return this.stepValidation[step as keyof typeof this.stepValidation];
+  }
+  
+  updateStepValidation(): void {
+    // Step 1: Contact Information
+    this.stepValidation[1] = this.isAnonymous ? 
+      this.fraudForm.get('fullName')?.valid === true :
+      this.fraudForm.get('fullName')?.valid === true && 
+      this.fraudForm.get('email')?.valid === true;
+    
+    // Step 2: Incident Details
+    this.stepValidation[2] = 
+      this.fraudForm.get('victimWallet')?.valid === true &&
+      this.fraudForm.get('amountLost')?.valid === true;
+    
+    // Step 3: Incident Description
+    this.stepValidation[3] = 
+      this.fraudForm.get('incidentDescription')?.valid === true;
+    
+    // Step 4: Supporting Evidence (optional)
+    this.stepValidation[4] = true;
+    
+    // Step 5: Terms and Consent
+    this.stepValidation[5] = 
+      this.fraudForm.get('shareDataConsent')?.value === true &&
+      this.fraudForm.get('termsConsent')?.value === true;
+      
+    // Update progress bar CSS variables
+    this.updateProgressBar();
+  }
+  
+  updateProgressBar(): void {
+    // Count completed steps
+    let completedSteps = 0;
+    for (let i = 1; i <= this.totalSteps; i++) {
+      if (i < this.currentStep && this.stepValidation[i as keyof typeof this.stepValidation]) {
+        completedSteps++;
+      }
+    }
+    
+    // Set CSS variables for the progress bar
+    const root = document.documentElement;
+    root.style.setProperty('--completed-steps', completedSteps.toString());
+    root.style.setProperty('--total-steps', this.totalSteps.toString());
+  }
+  
+  getStepCompletionStatus(step: number): 'complete' | 'current' | 'incomplete' | 'locked' {
+    if (step < this.currentStep && this.isStepValid(step)) {
+      return 'complete';
+    } else if (step === this.currentStep) {
+      return 'current';
+    } else if (step < this.currentStep) {
+      return 'incomplete';
+    } else {
+      // Check if all previous steps are valid
+      let allPreviousValid = true;
+      for (let i = 1; i < step; i++) {
+        if (!this.isStepValid(i)) {
+          allPreviousValid = false;
+          break;
+        }
+      }
+      return allPreviousValid ? 'incomplete' : 'locked';
+    }
+  }
+  
+  canProceedToNextStep(): boolean {
+    return this.isStepValid(this.currentStep);
+  }
   
   bothConsentsChecked(): boolean {
     const shareDataConsent = this.fraudForm.get('shareDataConsent')?.value;

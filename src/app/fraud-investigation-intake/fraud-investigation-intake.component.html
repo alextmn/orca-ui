@@ -33,9 +33,28 @@
         <p class="subtitle">Please provide details about the incident to help us investigate</p>
       </div>
 
+      <!-- Material Design Style Stepper -->
+      <div class="md-stepper-horizontal">
+        <div *ngFor="let title of stepTitles; let i = index" 
+             class="md-step" 
+             [class.active]="currentStep === i+1"
+             [class.done]="getStepCompletionStatus(i+1) === 'complete'"
+             [class.editable]="getStepCompletionStatus(i+1) !== 'locked'"
+             (click)="getStepCompletionStatus(i+1) !== 'locked' && goToStep(i+1)">
+          <div class="md-step-circle">
+            <span *ngIf="getStepCompletionStatus(i+1) !== 'complete'">{{ i+1 }}</span>
+            <span *ngIf="getStepCompletionStatus(i+1) === 'complete'" class="checkmark">✓</span>
+          </div>
+          <div class="md-step-title">{{ title }}</div>
+          <div class="md-step-bar-left"></div>
+          <div class="md-step-bar-right"></div>
+        </div>
+      </div>
+
       <div class="form-container">
     <form [formGroup]="fraudForm">
-      <div class="form-section">
+      <!-- Step 1: Contact Information -->
+      <div class="form-section" *ngIf="currentStep === 1">
         <h2>Contact Information</h2>
         <div class="form-group">
           <label for="fullName">Full Name</label>
@@ -69,7 +88,8 @@
         </div>
       </div>
 
-      <div class="form-section">
+      <!-- Step 2: Incident Details -->
+      <div class="form-section" *ngIf="currentStep === 2">
         <h2>Incident Details</h2>
         <div class="form-group">
           <label for="victimWallet">Your Wallet Address(es)</label>
@@ -83,7 +103,7 @@
         </div>
         <div class="form-group">
           <label for="scammerWallet">Scammer Wallet Address(es) (if known)</label>
-          <input type="text" id="scammerWallet" formControlName="scammerWallet" placeholder="Enter comma-separated list of scammer's wallet addresses">
+          <input type="text" id="scammerWallet" formControlName="scammerWallet" placeholder="Enter comma-separated list of scammer wallet addresses">
           <div class="helper-text">
             Any wallet addresses you believe are associated with the scammer. This helps track fund movements.
           </div>
@@ -114,7 +134,8 @@
         </div>
       </div>
 
-      <div class="form-section">
+      <!-- Step 3: Incident Description -->
+      <div class="form-section" *ngIf="currentStep === 3">
         <h2>Incident Description</h2>
         <div class="form-group">
           <label for="incidentDescription">
@@ -140,7 +161,8 @@
         </div>
       </div>
 
-      <div class="form-section">
+      <!-- Step 4: Supporting Evidence -->
+      <div class="form-section" *ngIf="currentStep === 4">
         <h2>Supporting Evidence</h2>
         <div class="form-group">
           <label>Upload Screenshots or Documents</label>
@@ -195,7 +217,8 @@
         </div>
       </div>
 
-      <div class="form-section">
+      <!-- Step 5: Terms and Consent -->
+      <div class="form-section" *ngIf="currentStep === 5">
         <h2>Terms and Consent</h2>
         <div class="consent-group">
           <div class="checkbox-container">
@@ -222,8 +245,22 @@
         <div class="error-message">{{ submitError }}</div>
       </div>
 
-      <div class="form-actions">
+      <!-- Navigation Controls -->
+      <div class="step-navigation">
+        <button type="button" class="prev-button" 
+                *ngIf="currentStep > 1"
+                (click)="prevStep()">
+          Previous
+        </button>
+        <button type="button" class="next-button" 
+                *ngIf="currentStep < totalSteps"
+                [disabled]="!canProceedToNextStep()"
+                [attr.data-tooltip]="!canProceedToNextStep() ? 'Please complete all required fields' : ''"
+                (click)="nextStep()">
+          Next
+        </button>
         <button type="button" class="submit-button" 
+                *ngIf="currentStep === totalSteps"
                 [disabled]="!bothConsentsChecked() || fraudForm.invalid || isSubmitting" 
                 [class.greyed-out]="!bothConsentsChecked()"
                 [attr.data-tooltip]="!bothConsentsChecked() ? 'Please agree to both terms to continue.' : ''"
