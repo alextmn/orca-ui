@@ -226,8 +226,9 @@
         <button type="button" class="submit-button" 
                 [disabled]="!bothConsentsChecked() || fraudForm.invalid || isSubmitting" 
                 [class.greyed-out]="!bothConsentsChecked()"
+                [attr.data-tooltip]="!bothConsentsChecked() ? 'Please agree to both terms to continue.' : ''"
                 (click)="onSubmit()">
-          <span *ngIf="!isSubmitting">Submit a Case</span>
+          <span *ngIf="!isSubmitting">Submit My Report</span>
           <span *ngIf="isSubmitting" class="loading-spinner">Loading...</span>
         </button>
         <button type="button" class="cancel-button" routerLink="/" [disabled]="isSubmitting">Cancel</button>
