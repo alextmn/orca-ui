@@ -233,7 +233,6 @@ Victim Wallet → 0x7a23... → 0x9b45... → 0x3f67... → Exchange
           status: 'Processing',
           description: 'Your submission has been received and data is being analyzed. ',
           updatedBy: 'System',
-          markdownFileIds: ['update-002',"update-003","assessment-report"],
         },
         {
           id: 'update-004',
@@ -242,6 +241,8 @@ Victim Wallet → 0x7a23... → 0x9b45... → 0x3f67... → Exchange
           status: 'Report Finalized',
           description: 'Investigative findings have been compiled',
           updatedBy: 'System',
+          markdownFileIds: ['update-002',"update-003","assessment-report"],
+
         },
         {
           id: 'update-005',

@@ -242,7 +242,7 @@ export class CaseInvestigationComponent implements OnInit {
     const fileTitles: {[key: string]: string} = {
       'update-002': 'Automatic Case Assessment',
       'update-003': 'Blockchain Forensics Report',
-      'assessment-report': 'Case Assessment Report',
+      'assessment-report': 'Assessment, Similarity Score',
       'forensics-report': 'Forensics Analysis',
       'police-report': 'Police Report Template'
     };
