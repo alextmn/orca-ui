@@ -49,12 +49,25 @@
         </div>
         <div class="form-group">
           <label for="email">Email Address</label>
-          <input type="email" id="email" formControlName="email" placeholder="Enter your email address">
-          <div class="helper-text">
+          <input type="email" id="email" formControlName="email" placeholder="Enter your email address" [disabled]="isAnonymous">
+          <div class="helper-text" *ngIf="!isAnonymous">
             We'll use this email to communicate with you about your case.
           </div>
-          <div class="error-message" *ngIf="fraudForm.get('email')?.invalid && fraudForm.get('email')?.touched">
+          <div class="helper-text warning" *ngIf="isAnonymous">
+            You've chosen to submit anonymously. We won't be able to contact you with updates about your case.
+          </div>
+          <div class="error-message" *ngIf="fraudForm.get('email')?.invalid && fraudForm.get('email')?.touched && !isAnonymous">
             Valid email is required
+          </div>
+        </div>
+        
+        <div class="consent-group">
+          <div class="checkbox-container">
+            <input type="checkbox" id="anonymousSubmission" formControlName="anonymousSubmission" (change)="toggleAnonymous()">
+            <label for="anonymousSubmission">Submit anonymously (opt out of email communication)</label>
+          </div>
+          <div class="helper-text">
+            Selecting this will prevent email communications and limit our ability to provide case updates.
           </div>
         </div>
       </div>
@@ -213,7 +226,10 @@
       </div>
 
       <div class="form-actions">
-        <button type="button" class="submit-button" [disabled]="fraudForm.invalid || isSubmitting" (click)="onSubmit()">
+        <button type="button" class="submit-button" 
+                [disabled]="!bothConsentsChecked() || fraudForm.invalid || isSubmitting" 
+                [class.greyed-out]="!bothConsentsChecked()"
+                (click)="onSubmit()">
           <span *ngIf="!isSubmitting">Submit a Case</span>
           <span *ngIf="isSubmitting" class="loading-spinner">Loading...</span>
         </button>

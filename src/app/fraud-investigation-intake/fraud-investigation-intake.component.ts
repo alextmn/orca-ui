@@ -17,6 +17,7 @@ export class FraudInvestigationIntakeComponent implements OnInit {
   isSubmitting = false;
   submitError: string | null = null;
   isDragOver = false;
+  isAnonymous = false;
   
   constructor(
     private fb: FormBuilder,
@@ -33,6 +34,7 @@ export class FraudInvestigationIntakeComponent implements OnInit {
     this.fraudForm = this.fb.group({
       fullName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
+      anonymousSubmission: [false],
       victimWallet: ['', Validators.required],
       scammerWallet: [''],
       exchangePlatform: [''],
@@ -143,6 +145,38 @@ export class FraudInvestigationIntakeComponent implements OnInit {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   }
   
+  toggleAnonymous(): void {
+    this.isAnonymous = this.fraudForm.get('anonymousSubmission')?.value === true;
+    
+    const emailControl = this.fraudForm.get('email');
+    if (this.isAnonymous) {
+      // Store the current email value temporarily
+      this.lastEmailValue = emailControl?.value || '';
+      // Set email to a placeholder value and disable validation
+      emailControl?.setValue('anonymous@example.com');
+      emailControl?.clearValidators();
+    } else {
+      // Restore the previous email value if available
+      if (this.lastEmailValue) {
+        emailControl?.setValue(this.lastEmailValue);
+      } else {
+        emailControl?.setValue('');
+      }
+      // Restore validators
+      emailControl?.setValidators([Validators.required, Validators.email]);
+    }
+    // Update validation status
+    emailControl?.updateValueAndValidity();
+  }
+  
+  private lastEmailValue: string = '';
+  
+  bothConsentsChecked(): boolean {
+    const shareDataConsent = this.fraudForm.get('shareDataConsent')?.value;
+    const termsConsent = this.fraudForm.get('termsConsent')?.value;
+    return shareDataConsent === true && termsConsent === true;
+  }
+  
   onSubmit(): void {
     
     if (this.fraudForm.valid) {
@@ -156,7 +190,8 @@ export class FraudInvestigationIntakeComponent implements OnInit {
         const reportData: FraudReport = {
           id: caseId, // Add the case ID to the report data
           fullName: this.fraudForm.value.fullName || '',
-          email: this.fraudForm.value.email || '',
+          email: this.isAnonymous ? 'anonymous' : (this.fraudForm.value.email || ''),
+          isAnonymous: this.isAnonymous,
           victimWallet: this.fraudForm.value.victimWallet || '',
           scammerWallet: this.fraudForm.value.scammerWallet || '',
           exchangePlatform: this.fraudForm.value.exchangePlatform || '',

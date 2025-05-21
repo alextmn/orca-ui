@@ -6,6 +6,7 @@ export interface FraudReport {
   id?: string;
   fullName: string;
   email: string;
+  isAnonymous?: boolean;
   victimWallet: string;
   scammerWallet?: string;
   exchangePlatform?: string;
