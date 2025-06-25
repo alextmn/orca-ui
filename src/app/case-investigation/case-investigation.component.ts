@@ -5,13 +5,14 @@ import { FormsModule } from '@angular/forms';
 import { FraudReportService, FraudReport } from '../services/fraud-report.service';
 import { CaseStatusService, CaseDetails, CaseStatusUpdate, MarkdownFile } from '../services/case-status.service';
 import { MarkdownModule } from 'ngx-markdown';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { of } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-case-investigation',
   standalone: true,
-  imports: [CommonModule, RouterModule, MarkdownModule, FormsModule],
+  imports: [CommonModule, RouterModule, MarkdownModule, FormsModule, PdfViewerModule],
   templateUrl: './case-investigation.component.html',
   styleUrl: './case-investigation.component.scss'
 })
@@ -27,6 +28,11 @@ export class CaseInvestigationComponent implements OnInit {
   showMarkdownModal = false;
   selectedUpdate: CaseStatusUpdate | null = null;
   selectedMarkdownFile: MarkdownFile | null = null;
+  
+  // PDF Modal properties
+  showPdfModal = false;
+  pdfSrc: string = '';
+  pdfTitle: string = '';
   
   // Copy to clipboard properties
   showCopySuccess = false;
@@ -272,5 +278,41 @@ export class CaseInvestigationComponent implements OnInit {
     });
   }
 
+  /**
+   * Opens the PDF modal with the report example
+   * @param title The title for the PDF
+   */
+  openPdfModal(title: string): void {
+    this.pdfSrc = 'assets/report-example.pdf';
+    this.pdfTitle = title;
+    this.showPdfModal = true;
+    document.body.style.overflow = 'hidden';
+  }
+
+  /**
+   * Closes the PDF modal
+   */
+  closePdfModal(): void {
+    this.showPdfModal = false;
+    this.pdfSrc = '';
+    this.pdfTitle = '';
+    document.body.style.overflow = 'auto';
+  }
+
+  /**
+   * Handles document clicks - opens PDF for specific files
+   * @param fileId The file ID to handle
+   */
+  handleDocumentClick(fileId: string): void {
+    // Special files that should open the PDF instead of markdown
+    const pdfFiles = ['update-002', 'update-003', 'assessment-report'];
+    
+    if (pdfFiles.includes(fileId)) {
+      const title = this.getFileTitle(fileId);
+      this.openPdfModal(title);
+    } else {
+      this.openMarkdownFile(fileId);
+    }
+  }
 
 }
